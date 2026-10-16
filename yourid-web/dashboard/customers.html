@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clients - YourID</title>
+  <link rel="stylesheet" href="/assets/css/base/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base/components.css">
+  <link rel="stylesheet" href="/assets/css/layouts/dashboard.css">
+</head>
+<body>
+  <div class="dash-shell">
+    <aside id="sidebar-root"></aside>
+    <div class="dash-main">
+      <header id="header-root"></header>
+      <main class="dash-content">
+
+        <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:16px; margin-bottom:12px;">
+          <div>
+            <h1 class="page-title">Clients</h1>
+            <p style="color:var(--text-muted); margin-top:4px; font-size:14px;">Données calculées à partir de vos commandes complétées - aucune information inventée.</p>
+          </div>
+          <button id="export-btn" class="btn-secondary" style="padding:8px 16px; font-size:13px;" disabled>Exporter en CSV</button>
+        </div>
+
+        <div class="products-kpi-row" style="margin-bottom:20px;">
+          <div class="stat-card"><span class="kpi-label">Clients uniques</span><span class="kpi-value" id="kpi-total">-</span></div>
+          <div class="stat-card"><span class="kpi-label">Clients VIP (3+ commandes)</span><span class="kpi-value" id="kpi-vip">-</span></div>
+          <div class="stat-card"><span class="kpi-label">Panier moyen</span><span class="kpi-value" id="kpi-avg">-</span></div>
+        </div>
+
+        <div class="toolbar-card">
+          <div class="search-input-wrap">
+            <span id="search-icon" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#94A3B8; display:flex;"></span>
+            <input class="input" type="text" id="search-input" placeholder="Rechercher par nom ou email...">
+          </div>
+          <div class="pill-row" id="status-pills"></div>
+        </div>
+
+        <div class="card" style="padding:0; overflow:hidden;">
+          <div style="overflow-x:auto;">
+            <table class="dash-table" id="customers-table">
+              <thead>
+                <tr><th>Client</th><th>Commandes</th><th>Total dépensé</th><th>Statut</th><th>Dernier achat</th><th>Produit favori</th></tr>
+              </thead>
+              <tbody id="customers-tbody">
+                <tr><td colspan="6"><div class="skeleton" style="height:40px;"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="/assets/js/core/api.js"></script>
+  <script src="/assets/js/core/icons.js"></script>
+  <script src="/assets/js/core/page-transition.js"></script>
+  <script src="/assets/js/components/dashboard-shell.js"></script>
+  <script src="/assets/js/pages/dashboard/customers.js"></script>
+</body>
+</html>

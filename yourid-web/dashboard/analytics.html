@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics — YourID</title>
+  <link rel="stylesheet" href="/assets/css/base/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base/components.css">
+  <link rel="stylesheet" href="/assets/css/layouts/dashboard.css">
+  <style>
+    .chart-box { position: relative; height: 280px; }
+    .chart-box-sm { position: relative; height: 240px; }
+    .two-cols { display: grid; grid-template-columns: 3fr 2fr; gap: 24px; margin-top: 24px; }
+    @media (max-width: 900px) { .two-cols { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="dash-shell">
+    <aside id="sidebar-root"></aside>
+    <div class="dash-main">
+      <header id="header-root"></header>
+      <main class="dash-content">
+
+        <div style="margin-bottom:20px;">
+          <h1 class="page-title">Analytics</h1>
+          <p style="color:var(--text-muted); margin-top:4px; font-size:14px;">
+            Revenus, commandes et classement de vos produits.
+          </p>
+        </div>
+
+        <div class="kpi-grid" id="kpi-grid" style="margin-bottom:24px;">
+          <div class="stat-card"><div class="skeleton" style="height:60px;"></div></div>
+          <div class="stat-card"><div class="skeleton" style="height:60px;"></div></div>
+          <div class="stat-card"><div class="skeleton" style="height:60px;"></div></div>
+          <div class="stat-card"><div class="skeleton" style="height:60px;"></div></div>
+        </div>
+
+        <!-- Revenus sur période -->
+        <section class="card">
+          <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px; margin-bottom:6px;">
+            <h2 class="section-title">Évolution des revenus</h2>
+            <div class="pill-row" id="period-pills">
+              <button class="pill" data-days="7">7 jours</button>
+              <button class="pill active" data-days="30">30 jours</button>
+              <button class="pill" data-days="90">90 jours</button>
+            </div>
+          </div>
+          <p id="period-summary" style="font-size:13px; color:var(--text-muted); margin-bottom:14px;"></p>
+          <div class="chart-box"><canvas id="revenue-chart"></canvas></div>
+        </section>
+
+        <div class="two-cols">
+          <section class="card">
+            <h2 class="section-title" style="margin-bottom:16px;">Top 5 produits par revenus</h2>
+            <div class="chart-box-sm"><canvas id="products-chart"></canvas></div>
+          </section>
+          <section class="card">
+            <h2 class="section-title" style="margin-bottom:16px;">Statut des commandes</h2>
+            <div class="chart-box-sm"><canvas id="status-chart"></canvas></div>
+          </section>
+        </div>
+
+        <section class="card" style="margin-top:24px;">
+          <h2 class="section-title" style="margin-bottom:16px;">Classement des produits</h2>
+          <div style="overflow-x:auto;">
+            <table class="dash-table">
+              <thead><tr><th>#</th><th>Produit</th><th>Ventes</th><th>Revenus</th><th>Vues</th><th>Conversion</th></tr></thead>
+              <tbody id="ranking-tbody"><tr><td colspan="6"><div class="skeleton" style="height:40px;"></div></td></tr></tbody>
+            </table>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="/assets/js/core/api.js"></script>
+  <script src="/assets/js/core/icons.js"></script>
+  <script src="/assets/js/core/page-transition.js"></script>
+  <script src="/assets/js/components/dashboard-shell.js"></script>
+  <script src="/assets/js/components/charts.js"></script>
+  <script src="/assets/js/pages/dashboard/analytics.js"></script>
+</body>
+</html>

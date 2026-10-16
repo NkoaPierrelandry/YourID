@@ -1,0 +1,9 @@
+logging:
+  level:
+    root: INFO
+    com.yourid.api: DEBUG
+    org.hibernate.SQL: DEBUG
+
+springdoc:
+  swagger-ui:
+    enabled: true

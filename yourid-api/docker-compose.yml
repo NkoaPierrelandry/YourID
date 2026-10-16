@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: yourid-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: yourid
+      POSTGRES_USER: yourid
+      POSTGRES_PASSWORD: yourid
+    ports:
+      - "5433:5432"
+    volumes:
+      - yourid_pg_data:/var/lib/postgresql/data
+
+volumes:
+  yourid_pg_data:

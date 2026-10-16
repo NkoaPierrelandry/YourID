@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paramètres — YourID</title>
+  <link rel="stylesheet" href="../assets/css/base/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base/components.css">
+  <link rel="stylesheet" href="../assets/css/layouts/dashboard.css">
+  <link rel="stylesheet" href="../assets/css/layouts/dashboard-ui.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/pages/dashboard-settings.css">
+  <link rel="stylesheet" href="../assets/css/pages/store-settings.css">
+</head>
+<body>
+  <div class="dash-shell">
+    <aside id="sidebar-root"></aside>
+    <div class="dash-main">
+      <header id="header-root"></header>
+      <main class="dash-content settings-page-content">
+
+        <div class="settings-page-title">
+          <h1 class="page-title">Paramètres</h1>
+        </div>
+
+        <div class="pill-row" id="settings-tabs">
+          <button class="pill active" data-tab="profile">Profil</button>
+          <button class="pill" data-tab="store">Boutique</button>
+          <button class="pill" data-tab="payment">Paiement</button>
+          <button class="pill" data-tab="security">Sécurité</button>
+        </div>
+
+        <!-- Onglet Profil -->
+        <section class="card settings-card" id="tab-profile" style="width:min(100%, 470px); max-width:470px; margin-inline:auto;">
+          <div class="settings-section-header">
+            <h2 class="settings-section-title">Informations personnelles</h2>
+            <p class="settings-section-desc">Ces informations apparaissent sur votre profil public.</p>
+          </div>
+          <form id="profile-form">
+            <div class="pd-grid-2">
+              <div class="auth-field"><label class="label">Prénom</label><input class="input" id="p-firstname"></div>
+              <div class="auth-field"><label class="label">Nom</label><input class="input" id="p-lastname"></div>
+            </div>
+            <div class="auth-field"><label class="label">Email</label><input class="input" id="p-email" disabled style="opacity:0.6;"></div>
+            <div class="auth-field"><label class="label">Bio</label><textarea class="input" id="p-bio" rows="3" maxlength="1000" style="resize:vertical;"></textarea></div>
+            <button type="submit" class="btn-primary" style="font-size:13px; padding:8px 18px;">Enregistrer</button>
+          </form>
+        </section>
+
+        <!-- Onglet Boutique -->
+        <section class="card settings-card" id="tab-store" style="display:none;">
+
+          <!-- Vue "pas de boutique" (création) -->
+          <div id="no-store-view" style="display:none; text-align:center; padding:12px 0 24px;">
+            <p style="margin-bottom:16px; color:var(--text-muted);">Vous n'avez pas encore de boutique.</p>
+            <form id="create-store-form" style="max-width:360px; margin:0 auto; text-align:left;">
+              <div class="auth-field"><label class="label">Nom de la boutique *</label><input class="input" id="cs-name" required></div>
+              <div class="auth-field"><label class="label">Description</label><textarea class="input" id="cs-description" rows="2" style="resize:vertical;"></textarea></div>
+              <div class="pd-grid-2">
+                <div class="auth-field"><label class="label">Devise</label>
+                  <select class="select-control" id="cs-currency"><option value="XOF">XOF</option><option value="EUR">EUR</option><option value="USD">USD</option></select>
+                </div>
+                <div class="auth-field"><label class="label">Pays</label><input class="input" id="cs-country" value="SN" maxlength="2"></div>
+              </div>
+              <button type="submit" class="btn-primary" style="width:100%; font-size:13px;">Créer ma boutique</button>
+            </form>
+          </div>
+
+          <!-- Formulaire boutique (design Stitch) -->
+          <form id="store-form" style="display:none;">
+
+            <!-- Header -->
+            <div class="settings-section-header">
+              <div class="settings-section-title-wrap">
+                <h2 class="settings-section-title">Votre boutique</h2>
+                <p class="settings-section-desc">Personnalisez l'apparence visuelle et les details publics de votre vitrine.</p>
+              </div>
+              <div class="slug-badge">
+                <span>Slug public :</span>
+                <code id="s-slug">—</code>
+              </div>
+            </div>
+
+            <!-- SECTION : IDENTITE VISUELLE -->
+            <div class="form-section-divider">
+              <span class="section-label-caps"><i class="fa-solid fa-palette"></i> Identite visuelle</span>
+              <div class="section-divider-line"></div>
+            </div>
+
+            <div class="pd-grid-2" style="margin-bottom: 20px;">
+              <div class="auth-field">
+                <label class="label">
+                  <span>Logo de la boutique</span>
+                  <span class="label-hint">PNG, JPG ou WEBP</span>
+                </label>
+                <div class="logo-upload-box">
+                  <div id="s-logo-preview">
+                    <i class="fa-solid fa-store" aria-hidden="true"></i>
+                  </div>
+                  <div style="flex:1;" class="file-input-custom">
+                    <input type="file" id="s-logo-file" accept="image/png,image/jpeg,image/webp">
+                    <p style="font-size:11px; color:var(--text-muted); margin-top:4px;">Carre recommande • 5 Mo max.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="auth-field">
+                <label class="label">
+                  <span>Couleur principale</span>
+                  <span class="label-hint">Accent de la vitrine</span>
+                </label>
+                <div class="color-picker-wrap">
+                  <div class="color-picker-current">
+                    <input type="color" id="s-color" class="color-picker-input" value="#e01b24">
+                    <div class="color-picker-info">
+                      <span class="color-picker-label">Couleur actuelle</span>
+                      <span class="color-picker-hex" id="s-color-hex">#E01B24</span>
+                    </div>
+                  </div>
+                  <div class="color-picker-swatches">
+                    <button type="button" class="color-swatch selected" data-color="#E01B24" style="background:#E01B24" title="Rouge vif"></button>
+                    <button type="button" class="color-swatch" data-color="#0EA5E9" style="background:#0EA5E9" title="Bleu ciel"></button>
+                    <button type="button" class="color-swatch" data-color="#10B981" style="background:#10B981" title="Vert emeraude"></button>
+                    <button type="button" class="color-swatch" data-color="#8B5CF6" style="background:#8B5CF6" title="Violet"></button>
+                    <button type="button" class="color-swatch" data-color="#F59E0B" style="background:#F59E0B" title="Ambre"></button>
+                    <button type="button" class="color-swatch" data-color="#EC4899" style="background:#EC4899" title="Rose"></button>
+                    <button type="button" class="color-swatch" data-color="#111827" style="background:#111827" title="Noir"></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="auth-field">
+              <label class="label">
+                <span>Banniere de la boutique</span>
+                <span class="label-hint">Recommande : 1200 x 400 px</span>
+              </label>
+              <div class="banner-upload-container">
+                <div id="s-banner-preview">
+                  <i class="fa-regular fa-image" aria-hidden="true"></i>
+                  <span>Aucune banniere configuree • Cliquez pour choisir une image</span>
+                </div>
+                <div class="file-input-custom" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+                  <input type="file" id="s-banner-file" accept="image/png,image/jpeg,image/webp">
+                  <p style="font-size:11px; color:var(--text-muted); margin:0;">PNG, JPG ou WEBP. 5 Mo max.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION : INFORMATIONS DE BASE -->
+            <div class="form-section-divider">
+              <span class="section-label-caps"><i class="fa-regular fa-rectangle-list"></i> Informations de base</span>
+              <div class="section-divider-line"></div>
+            </div>
+
+            <div class="auth-field">
+              <label class="label" for="s-name">Nom de la boutique</label>
+              <div class="input-with-icon">
+                <input class="input" id="s-name" placeholder="Nom de votre boutique">
+                <i class="fa-solid fa-shop"></i>
+              </div>
+            </div>
+
+            <div class="auth-field">
+              <label class="label" for="s-description">Description</label>
+              <textarea class="input" id="s-description" rows="3" style="resize:vertical;" placeholder="Presentez votre univers, vos engagements et vos services..."></textarea>
+            </div>
+
+            <div class="auth-field">
+              <label class="label" for="s-website">Site web</label>
+              <div class="input-with-icon">
+                <input class="input" type="url" id="s-website" placeholder="https://votreboutique.com">
+                <i class="fa-solid fa-globe"></i>
+              </div>
+            </div>
+
+            <div class="pd-grid-2">
+              <div class="auth-field">
+                <label class="label" for="s-instagram">Instagram</label>
+                <div class="input-with-icon">
+                  <input class="input" id="s-instagram" placeholder="@nom_utilisateur">
+                  <i class="fa-brands fa-instagram"></i>
+                </div>
+              </div>
+              <div class="auth-field">
+                <label class="label" for="s-twitter">Twitter / X</label>
+                <div class="input-with-icon">
+                  <input class="input" id="s-twitter" placeholder="@nom_utilisateur">
+                  <i class="fa-brands fa-x-twitter"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION : IDENTITE & CONTACT -->
+            <div class="form-section-divider">
+              <span class="section-label-caps"><i class="fa-regular fa-address-card"></i> Identite &amp; Contact</span>
+              <div class="section-divider-line"></div>
+            </div>
+            <p class="section-meta-text">Ces informations sont visibles sur votre vitrine publique pour vos clients.</p>
+
+            <div class="auth-field">
+              <label class="label" for="s-tagline">
+                <span>Slogan / accroche</span>
+                <span class="label-hint">Max 200 caracteres</span>
+              </label>
+              <input class="input" id="s-tagline" maxlength="200" placeholder="Ex: Des produits hors normes, livres en 24h">
+            </div>
+
+            <div class="pd-grid-2">
+              <div class="auth-field">
+                <label class="label" for="s-contact-email">Email de contact</label>
+                <div class="input-with-icon">
+                  <input class="input" type="email" id="s-contact-email" placeholder="contact@exemple.com">
+                  <i class="fa-regular fa-envelope"></i>
+                </div>
+              </div>
+              <div class="auth-field">
+                <label class="label" for="s-contact-phone">Telephone / WhatsApp</label>
+                <div class="input-with-icon">
+                  <input class="input" type="tel" id="s-contact-phone" placeholder="+221 77 000 00 00">
+                  <i class="fa-brands fa-whatsapp"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="auth-field">
+              <label class="label" for="s-default-currency">Devise par defaut</label>
+              <select class="select-control" id="s-default-currency">
+                <option value="">-- Aucune --</option>
+                <option value="XOF">XOF (FCFA) - Franc CFA</option>
+                <option value="EUR">EUR (euro) - Euro</option>
+                <option value="USD">USD ($) - Dollar americain</option>
+                <option value="MAD">MAD (DH) - Dirham</option>
+                <option value="CAD">CAD ($) - Dollar canadien</option>
+              </select>
+            </div>
+
+            <!-- SECTION : ANNONCE VITRINE -->
+            <div class="form-section-divider">
+              <span class="section-label-caps"><i class="fa-solid fa-bullhorn"></i> Annonce vitrine</span>
+              <div class="section-divider-line"></div>
+            </div>
+            <p class="section-meta-text">Un bandeau court affiche en haut de votre boutique pour vos promotions ou alertes.</p>
+
+            <div class="auth-field">
+              <label class="label" for="s-announcement">
+                <span>Texte de l'annonce</span>
+                <span class="label-hint">Max 300 caracteres</span>
+              </label>
+              <input class="input" id="s-announcement" maxlength="300" placeholder="Ex: -20% sur tout jusqu'a dimanche minuit !">
+
+              <label class="toggle-card" for="s-announcement-active">
+                <div class="custom-switch">
+                  <input type="checkbox" id="s-announcement-active">
+                  <span class="switch-slider"></span>
+                </div>
+                <span class="toggle-text">Afficher cette annonce en haut de ma vitrine publique</span>
+              </label>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="form-action-footer">
+              <button type="button" class="btn-secondary" id="s-cancel-btn">Annuler</button>
+              <button type="submit" class="btn-primary">
+                <i class="fa-solid fa-check"></i>
+                <span>Enregistrer les modifications</span>
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Onglet Paiement -->
+        <section class="card settings-card" id="tab-payment" style="display:none;">
+          <div class="settings-section-header">
+            <h2 class="settings-section-title">Méthodes de paiement</h2>
+            <p class="settings-section-desc">Vos retraits seront envoyés vers l'un de ces comptes, choisi au moment de la demande.</p>
+          </div>
+          <div id="payment-accounts-list"><div class="skeleton" style="height:60px;"></div></div>
+          <button type="button" id="add-account-btn" class="add-account-btn">+ Ajouter un compte de paiement</button>
+        </section>
+
+        <!-- Onglet Sécurité -->
+        <section class="card settings-card" id="tab-security" style="display:none;">
+          <div class="settings-section-header">
+            <h2 class="settings-section-title">Mot de passe</h2>
+          </div>
+          <div style="background:#FFFBEB; border:1px solid #FDE68A; color:#92400E; border-radius:12px; padding:12px 14px; font-size:13px; margin-bottom:16px;">
+            <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Le changement de mot de passe n'est pas encore connecté côté serveur. Aperçu visuel uniquement.
+          </div>
+          <form id="password-form">
+            <div class="auth-field"><label class="label">Mot de passe actuel</label><input class="input" type="password" disabled></div>
+            <div class="auth-field"><label class="label">Nouveau mot de passe</label><input class="input" type="password" disabled></div>
+            <button type="submit" class="btn-secondary" disabled style="font-size:13px; padding:8px 18px; opacity:0.5; cursor:not-allowed;">Mettre à jour (indisponible)</button>
+          </form>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Modale ajout de compte de paiement -->
+  <dialog id="account-dialog" class="product-dialog" style="max-width:420px;">
+    <form id="account-form">
+      <div class="pd-header">
+        <h3 class="section-title" style="font-size:17px;">Ajouter un compte</h3>
+        <button type="button" id="account-dialog-close" style="border:none; background:none; font-size:20px; color:var(--text-muted);">&times;</button>
+      </div>
+      <div class="pd-body">
+        <div class="auth-field">
+          <label class="label">Méthode *</label>
+          <select class="select-control" id="acc-method" required>
+            <option value="ORANGE_MONEY">Orange Money</option>
+            <option value="WAVE">Wave</option>
+            <option value="MTN_MONEY">MTN Mobile Money</option>
+            <option value="BANK_TRANSFER">Virement bancaire</option>
+          </select>
+        </div>
+        <div class="auth-field">
+          <label class="label">Libellé (optionnel)</label>
+          <input class="input" id="acc-label" placeholder="Ex : Mon Orange Money principal">
+        </div>
+        <div class="auth-field">
+          <label class="label">Numéro / IBAN *</label>
+          <input class="input" id="acc-number" required placeholder="+221 77 123 45 67">
+        </div>
+      </div>
+      <div class="pd-footer">
+        <button type="button" id="account-cancel" class="btn-secondary" style="padding:8px 18px; font-size:13px;">Annuler</button>
+        <button type="submit" class="btn-primary" style="padding:8px 18px; font-size:13px;">Ajouter</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="../assets/js/core/api.js"></script>
+  <script src="../assets/js/core/icons.js"></script>
+  <script src="../assets/js/core/page-transition.js"></script>
+  <script src="../assets/js/core/password-toggle.js"></script>
+  <script src="../assets/js/components/dashboard-shell.js"></script>
+  <script src="../assets/js/pages/dashboard/settings.js"></script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tableau de bord — YourID</title>
+  <link rel="stylesheet" href="/assets/css/base/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base/components.css">
+  <link rel="stylesheet" href="/assets/css/layouts/dashboard.css">
+  <style>
+    .chart-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-top: 24px; }
+    @media (max-width: 900px) { .chart-grid { grid-template-columns: 1fr; } }
+    .chart-box { position: relative; height: 260px; }
+  </style>
+</head>
+<body>
+  <div class="dash-shell">
+    <aside id="sidebar-root"></aside>
+
+    <div class="dash-main">
+      <header id="header-root"></header>
+
+      <main class="dash-content">
+        <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:16px; margin-bottom:28px;">
+          <div>
+            <h1 class="page-title" id="greeting">Bonjour</h1>
+            <p style="color:var(--text-muted); margin-top:4px;">Voici un aperçu de votre activité.</p>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <a href="/dashboard/products.html" class="btn-secondary" style="padding:8px 14px; font-size:13px;">+ Ajouter produit</a>
+            <a href="/dashboard/ai.html" class="btn-secondary" style="padding:8px 14px; font-size:13px;">Coach IA</a>
+          </div>
+        </div>
+
+        <div id="no-store-banner" class="card" style="display:none; margin-bottom:24px; background:var(--brand-50); border-color:var(--brand-100);">
+          <p style="font-weight:600; margin-bottom:4px;">Vous n'avez pas encore de boutique</p>
+          <p style="font-size:14px; color:var(--text-muted); margin-bottom:12px;">Créez votre boutique pour commencer à vendre vos produits numériques.</p>
+          <a href="/dashboard/settings.html" class="btn-primary" style="padding:8px 18px; font-size:13px;">Créer ma boutique</a>
+        </div>
+
+        <div class="kpi-grid" id="kpi-grid">
+          <div class="stat-card"><div class="skeleton" style="height:60px;"></div></div>
+          <div class="stat-card"><div class="skeleton" style="height:60px;"></div></div>
+          <div class="stat-card"><div class="skeleton" style="height:60px;"></div></div>
+          <div class="stat-card"><div class="skeleton" style="height:60px;"></div></div>
+        </div>
+
+        <section class="chart-grid" id="chart-grid">
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+              <h2 class="section-title">Revenus — 30 derniers jours</h2>
+              <a href="/dashboard/analytics.html" class="auth-link" style="font-size:13px;">Détails →</a>
+            </div>
+            <div class="chart-box"><canvas id="revenue-chart"></canvas></div>
+            <p id="revenue-chart-note" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></p>
+          </div>
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+              <h2 class="section-title">Top produits</h2>
+              <a href="/dashboard/products.html" class="auth-link" style="font-size:13px;">Voir tout →</a>
+            </div>
+            <div id="top-products-list"><div class="skeleton" style="height:180px;"></div></div>
+          </div>
+        </section>
+
+        <section class="card" style="margin-top:24px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <h2 class="section-title">Commandes récentes</h2>
+            <a href="/dashboard/orders.html" class="auth-link" style="font-size:13px;">Voir tout →</a>
+          </div>
+          <div id="recent-orders-wrap"><div class="skeleton" style="height:200px;"></div></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <dialog id="order-dialog" style="border:none; border-radius:16px; padding:0; max-width:480px; width:90%;">
+    <div style="padding:24px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h3 class="section-title" style="font-size:17px;">Détail de la commande</h3>
+        <button id="close-order-dialog" style="border:none; background:none; color:var(--text-muted); font-size:20px;">&times;</button>
+      </div>
+      <div id="order-dialog-content"></div>
+    </div>
+  </dialog>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="/assets/js/core/api.js"></script>
+  <script src="/assets/js/core/icons.js"></script>
+  <script src="/assets/js/core/page-transition.js"></script>
+  <script src="/assets/js/components/dashboard-shell.js"></script>
+  <script src="/assets/js/components/charts.js"></script>
+  <script src="/assets/js/pages/dashboard/index.js"></script>
+</body>
+</html>

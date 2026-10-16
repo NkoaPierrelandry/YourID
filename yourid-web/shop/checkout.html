@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paiement — YourID</title>
+  <link rel="stylesheet" href="../assets/css/base/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base/components.css">
+  <link rel="stylesheet" href="../assets/css/layouts/public.css">
+</head>
+<body>
+  <nav class="public-nav">
+    <a href="/index.html" class="public-nav-logo"><div class="mark">YI</div> Your<span style="color:var(--brand)">ID</span></a>
+  </nav>
+
+  <div class="public-container" style="max-width:480px; padding:40px 24px;">
+
+    <!-- Étape 1 : formulaire acheteur -->
+    <div id="step-form">
+      <h1 class="page-title" style="margin-bottom:8px;">Finaliser l'achat</h1>
+      <div class="card" id="product-summary" style="margin:16px 0 24px;"><div class="skeleton" style="height:60px;"></div></div>
+
+      <form id="checkout-form">
+        <div class="auth-field"><label class="label">Prénom *</label><input class="input" id="c-firstname" required></div>
+        <div class="auth-field"><label class="label">Nom *</label><input class="input" id="c-lastname" required></div>
+        <div class="auth-field"><label class="label">Email *</label><input class="input" type="email" id="c-email" required></div>
+        <button type="submit" class="btn-primary" id="checkout-submit" style="width:100%;">Confirmer la commande</button>
+      </form>
+    </div>
+
+    <!-- Étape 2 : en attente de paiement (simulation) -->
+    <div id="step-pending" style="display:none; text-align:center;">
+      <h1 class="page-title" style="margin-bottom:8px;">Commande créée</h1>
+      <p style="color:var(--text-muted); margin-bottom:20px;">N° <strong id="order-number-display"></strong> — en attente de paiement.</p>
+      <div style="background:#FFFBEB; border:1px solid #FDE68A; color:#92400E; border-radius:12px; padding:14px; font-size:13px; margin-bottom:20px; text-align:left;">
+        <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Aucun vrai fournisseur de paiement n'est branché. Ce bouton simule la confirmation
+        qu'un fournisseur enverrait normalement par webhook — pour les tests uniquement.
+      </div>
+      <button id="simulate-payment-btn" class="btn-primary" style="width:100%;">Simuler la confirmation de paiement</button>
+    </div>
+
+    <!-- Étape 3 : succès -->
+    <div id="step-success" style="display:none; text-align:center;">
+      <h1 class="page-title" style="margin-bottom:8px;">Paiement confirmé <i class="fa-solid fa-circle-check" aria-hidden="true"></i></h1>
+      <p style="color:var(--text-muted); margin-bottom:20px;">Votre contenu est prêt.</p>
+      <div class="card" id="download-area" style="text-align:left;"></div>
+    </div>
+
+  </div>
+
+  <script src="../assets/js/core/api.js"></script>
+  <script src="../assets/js/core/page-transition.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get('productId');
+    const storeId = params.get('storeId');
+    let orderNumber = null;
+
+    (async function loadSummary() {
+      if (!productId) return;
+      try {
+        // On n a que le slug pour recuperer un produit publiquement ; comme on a
+        // deja l id ici (venu de product.html), on passe par le marketplace pour
+        // retrouver ses infos d affichage sans exposer de route supplementaire.
+        const { data } = await api.get(`/marketplace/products?size=200`, { skipAuth: true });
+        const product = data.content.find((p) => p.id === productId);
+        if (!product) throw new Error('not found');
+        document.getElementById('product-summary').innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-weight:600;">${escapeHtml(product.title)}</span>
+            <span style="font-weight:700;">${formatPrice(product.price, product.currency)}</span>
+          </div>
+        `;
+      } catch (e) {
+        document.getElementById('product-summary').innerHTML = `<p style="color:var(--text-muted);">Produit introuvable.</p>`;
+      }
+    })();
+
+    document.getElementById('checkout-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('checkout-submit');
+      btn.disabled = true;
+
+      try {
+        const { data } = await api.post(`/orders/checkout/${storeId}`, {
+          customerEmail: document.getElementById('c-email').value.trim(),
+          customerFirstName: document.getElementById('c-firstname').value.trim(),
+          customerLastName: document.getElementById('c-lastname').value.trim(),
+          items: [{ productId, quantity: 1 }],
+        }, { skipAuth: true });
+
+        orderNumber = data.orderNumber;
+        document.getElementById('order-number-display').textContent = orderNumber;
+        document.getElementById('step-form').style.display = 'none';
+        document.getElementById('step-pending').style.display = 'block';
+      } catch (err) {
+        alert(err.message || 'Erreur lors de la création de la commande.');
+        btn.disabled = false;
+      }
+    });
+
+    document.getElementById('simulate-payment-btn').addEventListener('click', async () => {
+      const btn = document.getElementById('simulate-payment-btn');
+      btn.disabled = true;
+      btn.textContent = 'Confirmation...';
+
+      try {
+        const { data: order } = await api.post(`/orders/${orderNumber}/complete`, {
+          paymentMethod: 'test', paymentRef: 'TEST-' + Date.now(),
+          provider: 'test', providerRef: 'TEST-' + Date.now(),
+        }, { skipAuth: true });
+
+        document.getElementById('step-pending').style.display = 'none';
+        document.getElementById('step-success').style.display = 'block';
+
+        document.getElementById('download-area').innerHTML = order.items.map((item) => `
+          <div class="checkout-summary-row">
+            <span>${escapeHtml(item.title)}</span>
+            ${item.contentUrl
+              ? `<a class="auth-link" href="${item.contentUrl}" target="_blank">Accéder →</a>`
+              : `<a class="auth-link" href="${window.YOURID_API_URL || 'http://localhost:4000/api/v1'}/orders/${orderNumber}/download/${item.productId}" target="_blank">Télécharger →</a>`
+            }
+          </div>
+        `).join('');
+      } catch (err) {
+        alert(err.message || 'Erreur lors de la confirmation.');
+        btn.disabled = false;
+        btn.textContent = 'Simuler la confirmation de paiement';
+      }
+    });
+  </script>
+</body>
+</html>

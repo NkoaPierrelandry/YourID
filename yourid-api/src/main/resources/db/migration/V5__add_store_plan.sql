@@ -1,0 +1,6 @@
+ALTER TABLE stores
+    ADD COLUMN plan VARCHAR(20) NOT NULL DEFAULT 'STARTER';
+
+ALTER TABLE stores
+    ADD CONSTRAINT chk_stores_plan
+    CHECK (plan IN ('STARTER', 'GROWTH', 'SCALE'));

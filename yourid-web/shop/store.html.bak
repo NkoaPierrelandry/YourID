@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boutique — YourID</title>
+  <link rel="stylesheet" href="../assets/css/base/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base/components.css">
+  <link rel="stylesheet" href="../assets/css/layouts/public.css">
+</head>
+<body>
+  <nav class="public-nav">
+    <a href="../index.html" class="public-nav-logo"><div class="mark">YI</div> Your<span style="color:var(--brand)">ID</span></a>
+  </nav>
+
+  <div id="store-banner" class="store-banner"></div>
+  <div class="store-header">
+    <div class="store-logo" id="store-logo">?</div>
+    <div>
+      <h1 class="store-title" id="store-name">Chargement...</h1>
+      <p class="store-desc" id="store-desc"></p>
+    </div>
+  </div>
+
+  <div class="public-container">
+    <div class="product-grid" id="product-grid">
+      <div class="skeleton" style="height:220px;"></div>
+      <div class="skeleton" style="height:220px;"></div>
+    </div>
+  </div>
+
+  <footer class="public-footer"><p>© 2026 YourID</p></footer>
+
+  <script src="../assets/js/core/api.js"></script>
+  <script src="../assets/js/core/page-transition.js"></script>
+  <script>
+    (async function () {
+      const urlSlug = new URLSearchParams(window.location.search).get('slug');
+      const sessionSlug = (window.Auth && Auth.getUser() && Auth.getUser().store && Auth.getUser().store.slug) || '';
+      const slug = urlSlug || sessionSlug;
+      if (!slug) {
+        document.getElementById('store-name').textContent = 'Boutique introuvable';
+        return;
+      }
+
+      try {
+        const { data: store } = await api.get(`/stores/${slug}`, { skipAuth: true });
+        document.getElementById('store-name').textContent = store.name;
+        document.getElementById('store-desc').textContent = store.description || '';
+        document.getElementById('store-logo').innerHTML = store.logo
+        ? `<img src="${resolveAssetUrl(store.logo)}">`
+        : getInitials(store.name);
+          if (store.banner) {
+            document.getElementById('store-banner').style.backgroundImage = `url(${resolveAssetUrl(store.banner)})`;
+          }
+        if (store.banner) document.getElementById('store-banner').style.backgroundImage = `url(${store.banner})`;
+        if (store.primaryColor) document.getElementById('store-logo').style.background = store.primaryColor;
+
+        // Pas de route publique "produits d une boutique" dediee -- on filtre
+        // le catalogue marketplace cote client par storeId (limite acceptable
+        // en phase de test, cf. note de livraison).
+        const { data: products } = await api.get('/marketplace/products?size=100', { skipAuth: true });
+        const storeProducts = products.content.filter((p) => p.storeId === store.id);
+
+        const grid = document.getElementById('product-grid');
+        if (storeProducts.length === 0) {
+          grid.innerHTML = `<div class="empty-state">Aucun produit publié pour l'instant.</div>`;
+          return;
+        }
+        grid.innerHTML = storeProducts.map((p) => `
+          <a class="product-card" href="/shop/product.html?slug=${encodeURIComponent(p.slug)}">
+            <div class="product-card-cover">${p.coverImage ? `<img src="${resolveAssetUrl(p.coverImage)}">` : '<i class="fa-solid fa-box-open" aria-hidden="true"></i>'}</div>
+            <div class="product-card-body">
+              <p class="product-card-title">${escapeHtml(p.title)}</p>
+              <p class="product-card-price">${formatPrice(p.price, p.currency)}</p>
+            </div>
+          </a>
+        `).join('');
+      } catch (e) {
+        document.getElementById('store-name').textContent = 'Boutique introuvable';
+      }
+    })();
+  </script>
+</body>
+</html>

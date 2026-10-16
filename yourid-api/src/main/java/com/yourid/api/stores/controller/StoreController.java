@@ -1,0 +1,57 @@
+package com.yourid.api.stores.controller;
+
+import com.yourid.api.common.response.ApiResponse;
+import com.yourid.api.common.security.UserPrincipal;
+import com.yourid.api.stores.dto.CreateStoreRequest;
+import com.yourid.api.stores.dto.StoreResponse;
+import com.yourid.api.stores.dto.UpdateStoreRequest;
+import com.yourid.api.stores.service.StoreService;
+import jakarta.validation.Valid;
+import java.util.UUID;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/v1/stores")
+@RequiredArgsConstructor
+public class StoreController {
+
+    private final StoreService storeService;
+
+    @PostMapping
+    public ResponseEntity<ApiResponse<StoreResponse>> create(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @Valid @RequestBody CreateStoreRequest request
+    ) {
+        StoreResponse response = storeService.create(principal.getId(), request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.ok(response, "Boutique creee."));
+    }
+
+    @GetMapping("/me")
+    public ApiResponse<StoreResponse> getMine(@AuthenticationPrincipal UserPrincipal principal) {
+        return ApiResponse.ok(storeService.getMine(principal.getId()));
+    }
+
+    @PatchMapping("/me")
+    public ApiResponse<StoreResponse> updateMine(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @Valid @RequestBody UpdateStoreRequest request
+    ) {
+        return ApiResponse.ok(storeService.update(principal.getId(), request), "Boutique mise a jour.");
+    }
+
+    // Route publique : recuperer une boutique par son ID (utile pour les pages produit)
+    @GetMapping("/id/{id}")
+    public ApiResponse<StoreResponse> getById(@PathVariable UUID id) {
+        return ApiResponse.ok(storeService.getById(id));
+    }
+
+    // Route publique : page vitrine dune boutique, ex: yourid.com/@ma-boutique
+    @GetMapping("/{slug}")
+    public ApiResponse<StoreResponse> getBySlug(@PathVariable String slug) {
+        return ApiResponse.ok(storeService.getBySlug(slug));
+    }
+}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Créer un compte — YourID</title>
+  <link rel="stylesheet" href="../assets/css/base/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base/components.css">
+  <link rel="stylesheet" href="../assets/css/pages/auth.css">
+</head>
+<body>
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-form-panel">
+        <a href="/index.html" class="auth-back">← Retour à l'accueil</a>
+
+        <div class="auth-header">
+          <div class="auth-header-mark">YI</div>
+          <div>
+            <h1 class="auth-title">Créer un compte</h1>
+            <p class="auth-subtitle">Commencez à vendre en quelques minutes</p>
+          </div>
+        </div>
+
+        <div id="error-box" class="auth-error-box"></div>
+
+        <form id="register-form">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <div class="auth-field">
+              <label class="label" for="firstName">Prénom</label>
+              <input class="input" id="firstName" autocomplete="given-name" required>
+            </div>
+            <div class="auth-field">
+              <label class="label" for="lastName">Nom</label>
+              <input class="input" id="lastName" autocomplete="family-name" required>
+            </div>
+          </div>
+          <div class="auth-field">
+            <label class="label" for="username">Nom d'utilisateur</label>
+            <input class="input" id="username" autocomplete="username" pattern="^[a-zA-Z0-9_.\-]+$" minlength="3" maxlength="50" required placeholder="alice_seller">
+          </div>
+          <div class="auth-field">
+            <label class="label" for="email">Email</label>
+            <input class="input" type="email" id="email" autocomplete="email" required>
+          </div>
+          <div class="auth-field">
+            <label class="label" for="password">Mot de passe</label>
+            <input class="input" type="password" id="password" autocomplete="new-password" minlength="8" required>
+            <p style="font-size:12px; color:var(--text-muted); margin-top:4px;">8 caractères minimum.</p>
+          </div>
+          <label style="display:flex; align-items:flex-start; gap:8px; font-size:13px; color:#374151; margin-bottom:18px;">
+            <input type="checkbox" id="accept-terms" required style="margin-top:2px;">
+            <span>J'accepte les <a class="auth-link" href="/legal/terms.html" target="_blank">conditions d'utilisation</a> et la <a class="auth-link" href="/legal/privacy.html" target="_blank">politique de confidentialité</a>.</span>
+          </label>
+          <button class="btn-primary" type="submit" id="submit-btn" style="width:100%;">Créer mon compte</button>
+        </form>
+
+        <p class="auth-footer">
+          Déjà inscrit ? <a class="auth-link" href="/auth/login.html">Se connecter</a>
+        </p>
+      </div>
+
+      <div class="auth-visual-panel">
+        <div class="auth-visual-mark">YI</div>
+        <h2 style="font-size:20px; font-weight:700; margin:0;">Rejoignez YourID</h2>
+        <p style="font-size:14px; opacity:0.9; margin:0;">Vendez vos ebooks, formations et contenus numériques, sans abonnement.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="/assets/js/core/api.js"></script>
+  <script src="/assets/js/core/page-transition.js"></script>
+  <script src="/assets/js/core/password-toggle.js"></script>
+  <script src="/assets/js/pages/auth/register.js"></script>
+</body>
+</html>

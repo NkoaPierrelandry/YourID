@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assistant IA - YourID</title>
+  <link rel="stylesheet" href="/assets/css/base/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base/components.css">
+  <link rel="stylesheet" href="/assets/css/layouts/dashboard.css">
+</head>
+<body>
+  <div class="dash-shell">
+    <aside id="sidebar-root"></aside>
+    <div class="dash-main">
+      <header id="header-root"></header>
+      <main class="dash-content" style="max-width:720px;">
+
+        <div style="margin-bottom:20px;">
+          <h1 class="page-title">Assistant IA</h1>
+          <p style="color:var(--text-muted); margin-top:4px; font-size:14px;">
+            Générez des descriptions, titres ou idées de contenu pour vos produits.
+          </p>
+        </div>
+
+        <div class="card">
+          <form id="ai-form">
+            <div class="auth-field">
+              <label class="label">Type de contenu</label>
+              <select class="select-control" id="ai-type">
+                <option value="product_description">Description de produit</option>
+                <option value="product_title">Titre de produit</option>
+                <option value="marketing_copy">Texte marketing / post réseaux sociaux</option>
+                <option value="email_subject">Sujet d'email</option>
+              </select>
+            </div>
+            <div class="auth-field">
+              <label class="label">Votre demande</label>
+              <textarea class="input" id="ai-prompt" rows="4" placeholder="Ex : Écris une description pour un ebook sur l'investissement immobilier au Sénégal, ton inspirant, 4 phrases." required style="resize:vertical;"></textarea>
+            </div>
+            <button type="submit" id="ai-submit" class="btn-primary" style="width:100%;">Générer</button>
+          </form>
+        </div>
+
+        <div id="ai-result-card" class="card" style="margin-top:20px; display:none;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <h2 class="section-title" style="font-size:16px;">Résultat</h2>
+            <button id="copy-btn" class="btn-secondary" style="padding:6px 14px; font-size:12px;">Copier</button>
+          </div>
+          <p id="ai-result-text" style="white-space:pre-wrap; font-size:14px; line-height:1.6;"></p>
+          <p id="ai-meta" style="font-size:11px; color:var(--text-muted); margin-top:12px;"></p>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="/assets/js/core/api.js"></script>
+  <script src="/assets/js/core/icons.js"></script>
+  <script src="/assets/js/core/page-transition.js"></script>
+  <script src="/assets/js/components/dashboard-shell.js"></script>
+  <script src="/assets/js/pages/dashboard/ai.js"></script>
+</body>
+</html>

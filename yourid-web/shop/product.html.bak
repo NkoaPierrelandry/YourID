@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produit — YourID</title>
+  <link rel="stylesheet" href="../assets/css/base/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base/components.css">
+  <link rel="stylesheet" href="../assets/css/layouts/public.css">
+</head>
+<body>
+  <nav class="public-nav">
+    <a href="../index.html" class="public-nav-logo"><div class="mark">YI</div> Your<span style="color:var(--brand)">ID</span></a>
+  </nav>
+
+  <div class="public-container">
+    <div class="product-detail" id="product-detail">
+      <div class="skeleton" style="height:360px; border-radius:20px;"></div>
+      <div class="skeleton" style="height:360px; border-radius:20px;"></div>
+    </div>
+
+    <section style="padding:24px 0 60px; max-width:640px;">
+      <h2 class="section-title" style="margin-bottom:16px;">Avis clients</h2>
+      <div id="reviews-list"><div class="skeleton" style="height:80px;"></div></div>
+    </section>
+  </div>
+
+  <footer class="public-footer"><p>© 2026 YourID</p></footer>
+
+  <script src="../assets/js/core/api.js"></script>
+  <script src="../assets/js/core/page-transition.js"></script>
+  <script>
+    let currentProduct = null;
+
+    (async function () {
+      const slug = new URLSearchParams(window.location.search).get('slug');
+      if (!slug) return;
+
+      try {
+        const { data: product } = await api.get(`/products/${slug}`, { skipAuth: true });
+        currentProduct = product;
+
+        document.getElementById('product-detail').innerHTML = `
+          <div class="product-detail-cover">${product.coverImage ? `<img src="${resolveAssetUrl(product.coverImage)}">` : '<i class="fa-solid fa-box-open" aria-hidden="true"></i>'}</div>
+          <div>
+            <p style="font-size:13px; color:var(--text-muted); margin-bottom:6px;">
+              <a href="/shop/store.html?slug=${encodeURIComponent(product.storeSlug)}" class="auth-link">${escapeHtml(product.storeName)}</a>
+            </p>
+            <h1 class="page-title">${escapeHtml(product.title)}</h1>
+            <div class="product-detail-price">${formatPrice(product.price, product.currency)}</div>
+            ${product.rating > 0 ? `<p class="stars">${'<i class="fa-solid fa-star" aria-hidden="true"></i>'.repeat(Math.round(product.rating))}${'<i class="fa-regular fa-star" aria-hidden="true"></i>'.repeat(5 - Math.round(product.rating))} <span style="color:var(--text-muted); font-size:13px;">(${product.reviewCount} avis)</span></p>` : ''}
+            <p style="font-size:14px; color:#374151; line-height:1.6; margin:16px 0;">${escapeHtml(product.description)}</p>
+            <a href="/shop/checkout.html?productId=${product.id}&storeId=${product.storeId}" class="btn-primary" style="width:100%; display:flex;">Acheter maintenant</a>
+          </div>
+        `;
+
+        loadReviews(product.id);
+      } catch (e) {
+        document.getElementById('product-detail').innerHTML = `<div class="empty-state">Produit introuvable.</div>`;
+      }
+    })();
+
+    async function loadReviews(productId) {
+      try {
+        const { data } = await api.get(`/reviews/product/${productId}?size=20`, { skipAuth: true });
+        const list = document.getElementById('reviews-list');
+        if (data.content.length === 0) {
+          list.innerHTML = `<p style="color:var(--text-muted); font-size:14px;">Aucun avis pour l'instant.</p>`;
+          return;
+        }
+        list.innerHTML = data.content.map((r) => `
+          <div class="review-row">
+            <p class="stars">${'<i class="fa-solid fa-star" aria-hidden="true"></i>'.repeat(r.rating)}${'<i class="fa-regular fa-star" aria-hidden="true"></i>'.repeat(5 - r.rating)}</p>
+            ${r.title ? `<p style="font-weight:600; font-size:14px; margin:4px 0 2px;">${escapeHtml(r.title)}</p>` : ''}
+            <p style="font-size:13px; color:var(--text-muted);">${escapeHtml(r.comment || '')}</p>
+          </div>
+        `).join('');
+      } catch (e) { /* silencieux */ }
+    }
+  </script>
+</body>
+</html>

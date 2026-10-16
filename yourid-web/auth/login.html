@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion — YourID</title>
+  <link rel="stylesheet" href="../assets/css/base/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base/components.css">
+  <link rel="stylesheet" href="../assets/css/pages/auth.css">
+</head>
+<body>
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-form-panel">
+        <a href="../index.html" class="auth-back">← Retour à l'accueil</a>
+
+        <div class="auth-header">
+          <div class="auth-header-mark">YI</div>
+          <div>
+            <h1 class="auth-title">Bon retour sur YourID</h1>
+            <p class="auth-subtitle">Connectez-vous à votre compte</p>
+          </div>
+        </div>
+
+        <div id="error-box" class="auth-error-box"></div>
+
+        <form id="login-form">
+          <div class="auth-field">
+            <label class="label" for="email">Email</label>
+            <input class="input" type="email" id="email" name="email" placeholder="m@exemple.com" autocomplete="email" required>
+          </div>
+          <div class="auth-field">
+            <div class="auth-field-row">
+              <label class="label" for="password" style="margin-bottom:0">Mot de passe</label>
+              <a class="auth-link" href="../auth/forgot-password.html">Mot de passe oublié ?</a>
+            </div>
+            <input class="input" type="password" id="password" name="password" autocomplete="current-password" required>
+          </div>
+          <button class="btn-primary" type="submit" id="submit-btn" style="width:100%; margin-top:8px;">
+            Se connecter
+          </button>
+        </form>
+
+        <p class="auth-footer">
+          Pas encore de compte ? <a class="auth-link" href="../auth/register.html">S'inscrire</a>
+        </p>
+      </div>
+
+      <div class="auth-visual-panel">
+        <div class="auth-visual-mark">YI</div>
+        <h2 style="font-size:20px; font-weight:700; margin:0;">YourID Marketplace</h2>
+        <p style="font-size:14px; opacity:0.9; margin:0;">Vendez vos ebooks, formations et contenus numériques partout en Afrique.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/core/api.js"></script>
+  <script src="../assets/js/core/page-transition.js"></script>
+  <script src="../assets/js/core/password-toggle.js"></script>
+  <script src="../assets/js/pages/auth/login.js"></script>
+</body>
+</html>

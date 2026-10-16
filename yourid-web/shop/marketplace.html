@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catalogue — YourID</title>
+  <link rel="stylesheet" href="../assets/css/base/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base/components.css">
+  <link rel="stylesheet" href="../assets/css/layouts/public.css">
+</head>
+<body>
+  <nav class="public-nav">
+    <a href="../index.html" class="public-nav-logo"><div class="mark">YI</div> Your<span style="color:var(--brand)">ID</span></a>
+    <div class="public-nav-actions">
+      <a href="../auth/login.html" class="btn-secondary" style="padding:8px 16px; font-size:13px;">Connexion</a>
+    </div>
+  </nav>
+
+  <div class="public-container">
+    <h1 class="page-title" style="margin:32px 0 20px;">Catalogue</h1>
+    <div class="product-grid" id="product-grid">
+      <div class="skeleton" style="height:220px;"></div>
+      <div class="skeleton" style="height:220px;"></div>
+      <div class="skeleton" style="height:220px;"></div>
+      <div class="skeleton" style="height:220px;"></div>
+    </div>
+  </div>
+
+  <footer class="public-footer"><p>© 2026 YourID</p></footer>
+
+  <script src="../assets/js/core/api.js"></script>
+  <script src="../assets/js/core/page-transition.js"></script>
+  <script>
+    (async function () {
+      try {
+        const { data } = await api.get('/marketplace/products?size=48', { skipAuth: true });
+        const grid = document.getElementById('product-grid');
+        if (data.content.length === 0) {
+          grid.innerHTML = `<div class="empty-state">Aucun produit publié pour l'instant.</div>`;
+          return;
+        }
+        grid.innerHTML = data.content.map((p) => `
+          <a class="product-card" href="/shop/product.html?slug=${encodeURIComponent(p.slug)}">
+            <div class="product-card-cover">${p.coverImage ? `<img src="${resolveAssetUrl(p.coverImage)}">` : '<i class="fa-solid fa-box-open" aria-hidden="true"></i>'}</div>
+            <div class="product-card-body">
+              <p class="product-card-title">${escapeHtml(p.title)}</p>
+              <p class="product-card-price">${formatPrice(p.price, p.currency)}</p>
+              <p class="product-card-meta">${escapeHtml(p.storeName)}</p>
+            </div>
+          </a>
+        `).join('');
+      } catch (e) {
+        document.getElementById('product-grid').innerHTML = `<div class="empty-state">Impossible de charger le catalogue.</div>`;
+      }
+    })();
+  </script>
+</body>
+</html>

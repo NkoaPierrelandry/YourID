@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Versements - YourID</title>
+  <link rel="stylesheet" href="/assets/css/base/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base/components.css">
+  <link rel="stylesheet" href="/assets/css/layouts/dashboard.css">
+</head>
+<body>
+  <div class="dash-shell">
+    <aside id="sidebar-root"></aside>
+    <div class="dash-main">
+      <header id="header-root"></header>
+      <main class="dash-content">
+
+        <div style="margin-bottom:20px;">
+          <h1 class="page-title">Versements</h1>
+          <p style="color:var(--text-muted); margin-top:4px; font-size:14px; max-width:640px;">
+            Demandez le retrait de votre solde disponible. Chaque demande est examinée par
+            notre équipe avant paiement - généralement sous 1 à 3 jours ouvrés.
+          </p>
+        </div>
+
+        <div class="products-kpi-row" style="margin-bottom:20px;">
+          <div class="stat-card">
+            <span class="kpi-label">Solde disponible</span>
+            <span class="kpi-value" id="kpi-balance">-</span>
+          </div>
+          <div class="stat-card">
+            <span class="kpi-label">En attente de traitement</span>
+            <span class="kpi-value" id="kpi-pending">-</span>
+          </div>
+          <div class="stat-card" style="justify-content:center;">
+            <button id="open-withdraw-btn" class="btn-primary" style="font-size:13px;">Demander un retrait</button>
+          </div>
+        </div>
+
+        <div class="card" style="padding:0; overflow:hidden;">
+          <div style="overflow-x:auto;">
+            <table class="dash-table" id="withdrawals-table">
+              <thead>
+                <tr><th>Montant</th><th>Méthode</th><th>Statut</th><th>Demandé le</th><th>Traité le</th></tr>
+              </thead>
+              <tbody id="withdrawals-tbody">
+                <tr><td colspan="5"><div class="skeleton" style="height:40px;"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+    <dialog id="withdraw-dialog" class="product-dialog" style="max-width:420px;">
+      <form id="withdraw-form">
+        <div class="pd-header">
+          <h3 class="section-title" style="font-size:17px;">Demander un retrait</h3>
+          <button type="button" id="withdraw-close" style="border:none; background:none; font-size:20px; color:var(--text-muted);">&times;</button>
+        </div>
+        <div class="pd-body">
+          <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">Solde disponible : <strong id="withdraw-available">—</strong></p>
+          <div class="auth-field">
+            <label class="label">Montant *</label>
+            <input class="input" type="number" id="w-amount" min="1" step="1" required>
+          </div>
+          <div class="auth-field">
+            <label class="label">Compte de paiement *</label>
+            <select class="select-control" id="w-account-select" required></select>
+            <p id="no-account-hint" style="display:none; font-size:12px; color:var(--text-muted); margin-top:6px;">
+              Aucun compte enregistré — <a href="/dashboard/settings.html" class="auth-link">ajoutez-en un dans Paramètres</a>.
+            </p>
+          </div>
+          <div class="auth-field">
+            <label class="label">Note (optionnel)</label>
+            <input class="input" id="w-notes">
+          </div>
+        </div>
+        <div class="pd-footer">
+          <button type="button" id="withdraw-cancel" class="btn-secondary" style="padding:8px 18px; font-size:13px;">Annuler</button>
+          <button type="submit" id="withdraw-submit" class="btn-primary" style="padding:8px 18px; font-size:13px;">Envoyer la demande</button>
+        </div>
+      </form>
+  </dialog>
+
+  <script src="/assets/js/core/api.js"></script>
+  <script src="/assets/js/core/icons.js"></script>
+  <script src="/assets/js/core/page-transition.js"></script>
+  <script src="/assets/js/components/dashboard-shell.js"></script>
+  <script src="/assets/js/pages/dashboard/payouts.js"></script>
+</body>
+</html>

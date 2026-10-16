@@ -1,0 +1,156 @@
+/* ════════════════════════════════════════════════════════════════════
+   Pages légales (CGU, confidentialité) : hero animé, sommaire sticky,
+   sections qui se révèlent au scroll, barre de progression de lecture.
+   ════════════════════════════════════════════════════════════════════ */
+
+/* -- Barre de progression de lecture -- */
+.legal-progress {
+  position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 50;
+  background: var(--brand); transform-origin: 0 50%; transform: scaleX(0);
+  transition: transform 0.1s linear;
+}
+
+/* -- Hero -- */
+.legal-hero {
+  position: relative; overflow: hidden; text-align: center;
+  padding: 72px 24px 80px;
+  background: linear-gradient(180deg, var(--brand-50) 0%, #fff 100%);
+}
+.legal-hero::before, .legal-hero::after {
+  content: ''; position: absolute; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle, rgba(0,168,107,0.18), transparent 70%);
+}
+.legal-hero::before { width: 380px; height: 380px; top: -140px; left: -100px; animation: legalFloat 9s ease-in-out infinite; }
+.legal-hero::after  { width: 420px; height: 420px; bottom: -190px; right: -120px; animation: legalFloat 11s ease-in-out infinite reverse; }
+@keyframes legalFloat { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(26px, 18px); } }
+
+.legal-hero > * { position: relative; z-index: 1; }
+.legal-hero h1 { font-size: 38px; font-weight: 800; color: #0F172A; max-width: 680px; margin: 0 auto 14px; line-height: 1.2; }
+.legal-hero p { font-size: 16px; color: var(--text-muted); max-width: 560px; margin: 0 auto; line-height: 1.65; }
+@media (max-width: 640px) { .legal-hero h1 { font-size: 28px; } .legal-hero { padding: 56px 20px 72px; } }
+
+.legal-badge {
+  display: inline-block; margin-bottom: 18px; padding: 6px 14px; border-radius: 999px;
+  background: #fff; border: 1px solid var(--brand-100); color: var(--brand-dark);
+  font-size: 12px; font-weight: 700;
+}
+
+/* Apparition en cascade du hero (indice --i posé en ligne sur chaque élément) */
+.anim { opacity: 0; transform: translateY(18px); animation: legalRise 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards; animation-delay: calc(var(--i, 0) * 100ms); }
+@keyframes legalRise { to { opacity: 1; transform: none; } }
+
+/* -- Révélation au scroll (active seulement si JS tourne : classe .js sur <html>) -- */
+.js .reveal {
+  opacity: 0; transform: translateY(26px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--d, 0ms);
+}
+.js .reveal.visible { opacity: 1; transform: none; }
+
+/* -- Cartes « L'essentiel » -- */
+.key-points {
+  max-width: 1100px; margin: -34px auto 0; padding: 0 24px; position: relative; z-index: 2;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+}
+@media (max-width: 767px) { .key-points { grid-template-columns: 1fr; margin-top: -24px; } }
+.key-card {
+  height: 100%; background: #fff; border: 1px solid var(--border); border-radius: 18px; padding: 22px;
+  box-shadow: var(--shadow-card); transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.key-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-soft); }
+.key-ico { font-size: 24px; margin-bottom: 10px; display: block; transition: transform 0.3s ease; }
+.key-card:hover .key-ico { transform: scale(1.18) rotate(-6deg); }
+.key-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 6px; color: #0F172A; }
+.key-card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+/* -- Avertissement -- */
+.legal-notice { max-width: 1100px; margin: 36px auto 0; padding: 0 24px; }
+.legal-notice > div {
+  background: #FFFBEB; border: 1px solid #FDE68A; color: #92400E;
+  border-radius: 14px; padding: 14px 18px; font-size: 13px; line-height: 1.65;
+}
+
+/* -- Mise en page : sommaire + article -- */
+.legal-layout {
+  max-width: 1100px; margin: 0 auto; padding: 48px 24px 64px;
+  display: grid; grid-template-columns: 250px 1fr; gap: 56px; align-items: start;
+}
+@media (max-width: 900px) { .legal-layout { grid-template-columns: 1fr; } .legal-toc { display: none; } }
+
+.legal-toc { position: sticky; top: 88px; }
+.legal-toc h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #94A3B8; margin: 0 0 12px; }
+.legal-toc ol { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--border); }
+.legal-toc a {
+  display: block; padding: 7px 14px; margin-left: -2px; font-size: 13px; color: var(--text-muted);
+  border-left: 2px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease, padding-left 0.2s ease;
+}
+.legal-toc a:hover { color: #0F172A; }
+.legal-toc a.active {
+  color: var(--brand-dark); font-weight: 600; border-left-color: var(--brand); padding-left: 18px;
+  background: linear-gradient(90deg, var(--brand-50), transparent);
+}
+
+/* -- Sections -- */
+.legal-section { margin-bottom: 52px; scroll-margin-top: 84px; }
+.legal-section h2 { display: flex; align-items: center; gap: 14px; font-size: 22px; font-weight: 800; color: #0F172A; margin: 0 0 16px; line-height: 1.3; }
+.legal-num {
+  width: 36px; height: 36px; border-radius: 11px; flex-shrink: 0;
+  background: var(--brand-50); color: var(--brand-dark); font-size: 14px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+.legal-section:hover .legal-num { background: var(--brand); color: #fff; transform: rotate(-6deg) scale(1.06); }
+
+.legal-section p, .legal-section li { font-size: 15px; line-height: 1.78; color: #374151; }
+.legal-section p { margin: 0 0 12px; }
+.legal-section ul { padding-left: 22px; margin: 0 0 14px; }
+.legal-section li { margin-bottom: 7px; }
+.legal-section li::marker { color: var(--brand); }
+.legal-section strong { color: #0F172A; }
+.legal-section a { color: var(--brand-dark); font-weight: 600; text-decoration: underline; text-decoration-color: rgba(0,168,107,0.35); text-underline-offset: 3px; }
+.legal-section a:hover { text-decoration-color: var(--brand); }
+
+.legal-callout {
+  border-left: 4px solid var(--brand); background: var(--brand-50); color: #065F46;
+  border-radius: 0 14px 14px 0; padding: 14px 18px; margin: 18px 0; font-size: 14px; line-height: 1.7;
+}
+
+/* Éléments à compléter : bien visibles pour ne pas être oubliés avant la mise en ligne */
+.ph { background: #FEF3C7; color: #92400E; padding: 1px 7px; border-radius: 6px; font-weight: 600; font-size: 0.92em; }
+
+/* -- Tableau -- */
+.legal-table-wrap { overflow-x: auto; margin: 16px 0; border: 1px solid var(--border); border-radius: 16px; }
+.legal-table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 560px; }
+.legal-table th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B; background: #F8FAFC; padding: 12px 16px; }
+.legal-table td { padding: 14px 16px; border-top: 1px solid var(--border); vertical-align: top; color: #374151; line-height: 1.6; }
+.legal-table td:first-child { font-weight: 700; color: #0F172A; white-space: nowrap; }
+.legal-table tbody tr { transition: background 0.2s ease; }
+.legal-table tbody tr:hover { background: var(--brand-50); }
+
+/* -- Bandeau final -- */
+.legal-cta { max-width: 1100px; margin: 0 auto 80px; padding: 0 24px; }
+.legal-cta-inner {
+  background: linear-gradient(160deg, var(--brand) 0%, var(--brand-dark) 100%); color: #fff;
+  border-radius: 24px; padding: 36px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px;
+}
+.legal-cta-inner h3 { font-size: 20px; font-weight: 800; margin: 0 0 6px; }
+.legal-cta-inner p { margin: 0; opacity: 0.92; font-size: 14px; }
+.legal-cta-inner .btn-primary { background: #fff; color: var(--brand-dark); }
+.legal-cta-inner .btn-primary:hover { background: var(--brand-50); }
+
+/* -- Retour en haut -- */
+.to-top {
+  position: fixed; right: 24px; bottom: 24px; width: 46px; height: 46px; border-radius: 50%; z-index: 40;
+  background: var(--brand); color: #fff; border: none; font-size: 18px; box-shadow: var(--shadow-elevated);
+  opacity: 0; transform: translateY(14px); pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease;
+}
+.to-top.show { opacity: 1; transform: none; pointer-events: auto; }
+.to-top:hover { background: var(--brand-dark); }
+
+/* -- Respect de « réduire les animations » -- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+  .js .reveal, .anim { opacity: 1; transform: none; }
+}

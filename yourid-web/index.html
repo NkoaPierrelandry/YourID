@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>
+    try {
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('has-landing-anim');
+      }
+    } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Créez votre boutique et vendez vos ebooks, formations, templates et contenus numériques. Sans abonnement, 15% par vente, retrait sur mobile money.">
+  <title>YourID - Vendez vos contenus numériques</title>
+  <link rel="stylesheet" href="/assets/css/base/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base/components.css">
+  <link rel="stylesheet" href="/assets/css/layouts/public.css">
+  <link rel="stylesheet" href="/assets/css/pages/landing.css">
+</head>
+<body>
+
+  <!-- ========= NAV ========= -->
+  <nav class="public-nav">
+    <a href="/index.html" class="public-nav-logo"><div class="mark">YI</div> Your<span style="color:var(--brand)">ID</span></a>
+    <div class="public-nav-links">
+      <a href="#fonctionnalites">Fonctionnalités</a>
+      <a href="#comment-ca-marche">Comment ça marche</a>
+      <a href="#tarifs">Tarif</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="public-nav-actions">
+      <a href="/auth/login.html" class="btn-secondary" style="padding:8px 16px; font-size:13px;">Connexion</a>
+      <a href="/auth/register.html" class="btn-primary" style="padding:8px 16px; font-size:13px;">Commencer</a>
+    </div>
+  </nav>
+
+  <!-- ========= HERO ========= -->
+  <section class="hero">
+    <span class="hero-badge landing-hero-item" data-reveal="down" style="--landing-delay: 0ms;">Pour les créateurs et entrepreneurs africains</span>
+    <h1 class="landing-hero-item" data-reveal style="--landing-delay: 120ms;">Transformez votre savoir en revenus, en ligne</h1>
+    <p class="landing-hero-item" data-reveal style="--landing-delay: 200ms;">Créez votre boutique en quelques minutes, vendez ebooks, formations et templates, et retirez vos gains sur mobile money. Sans abonnement.</p>
+    <div class="hero-actions landing-hero-item" data-reveal style="--landing-delay: 280ms;">
+      <a href="/auth/register.html" class="btn-primary">Créer ma boutique gratuitement</a>
+      <a href="#catalogue" class="btn-secondary">Voir le catalogue</a>
+    </div>
+    <p class="hero-trust landing-hero-item" data-reveal style="--landing-delay: 360ms;">Aucune carte bancaire requise · Inscription en 2 minutes</p>
+  </section>
+
+  <!-- ========= CHIFFRES ========= -->
+  <div class="public-container">
+    <div class="stats-band" data-reveal-group>
+      <div class="stat-item landing-reveal" data-reveal="scale"><div class="stat-number" id="stat-products">-</div><div class="stat-label">Produits en ligne</div></div>
+      <div class="stat-item landing-reveal" data-reveal="scale"><div class="stat-number">0 FCFA</div><div class="stat-label">d'abonnement mensuel</div></div>
+      <div class="stat-item landing-reveal" data-reveal="scale"><div class="stat-number">4</div><div class="stat-label">moyens de retrait</div></div>
+      <div class="stat-item landing-reveal" data-reveal="scale"><div class="stat-number">200 Mo</div><div class="stat-label">par fichier hébergé</div></div>
+    </div>
+  </div>
+
+  <!-- ========= QUE VENDRE ========= -->
+  <section class="section">
+    <div class="public-container">
+      <div class="section-head" data-reveal-group>
+        <p class="section-eyebrow" data-reveal>Que pouvez-vous vendre ?</p>
+        <h2 data-reveal>Tout ce qui se livre en numérique</h2>
+        <p data-reveal>Un produit, un fichier ou un simple lien : vous choisissez comment livrer à vos clients.</p>
+      </div>
+      <div class="chip-row" data-reveal-group>
+        <span class="chip" data-reveal="scale"><i class="fa-solid fa-book-open" aria-hidden="true"></i> Ebooks</span>
+        <span class="chip" data-reveal="scale"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i> Formations</span>
+        <span class="chip" data-reveal="scale"><i class="fa-solid fa-headphones" aria-hidden="true"></i> Audio & podcasts</span>
+        <span class="chip" data-reveal="scale"><i class="fa-solid fa-puzzle-piece" aria-hidden="true"></i> Templates</span>
+        <span class="chip" data-reveal="scale"><i class="fa-solid fa-laptop-code" aria-hidden="true"></i> Logiciels</span>
+        <span class="chip" data-reveal="scale"><i class="fa-solid fa-handshake" aria-hidden="true"></i> Services</span>
+        <span class="chip" data-reveal="scale"><i class="fa-solid fa-repeat" aria-hidden="true"></i> Abonnements</span>
+      </div>
+    </div>
+  </section>
+
+    <!-- ========= APERÇU DU DASHBOARD ========= -->
+  <section class="section" id="apercu">
+    <div class="public-container">
+      <div class="section-head" data-reveal-group>
+        <p class="section-eyebrow" data-reveal>Aperçu</p>
+        <h2 data-reveal>Un tableau de bord pensé pour vendre</h2>
+        <p data-reveal>Revenus, commandes et solde : tout est visible d'un coup d'œil, dès votre première vente.</p>
+      </div>
+
+      <div class="preview-window" data-reveal="scale">
+        <div class="preview-bar"><span></span><span></span><span></span><em>yourid.app/dashboard</em></div>
+        <div class="preview-body">
+          <aside class="preview-side">
+            <div class="logo"><i>YI</i> Your<span style="color:var(--brand)">ID</span></div>
+            <div class="preview-nav-item active">Tableau de bord</div>
+            <div class="preview-nav-item">Produits</div>
+            <div class="preview-nav-item">Commandes</div>
+            <div class="preview-nav-item">Clients</div>
+            <div class="preview-nav-item">Versements</div>
+            <div class="preview-nav-item">Analytics</div>
+            <div class="preview-nav-item">IA Assistant</div>
+          </aside>
+
+          <div class="preview-main">
+            <div class="preview-kpis">
+              <div class="preview-kpi"><span>Revenu total</span><strong>1 245 000 FCFA</strong><small>▲ 12 %</small></div>
+              <div class="preview-kpi"><span>Solde disponible</span><strong>318 500 FCFA</strong></div>
+              <div class="preview-kpi"><span>Ventes</span><strong>342</strong><small>▲ 8 %</small></div>
+              <div class="preview-kpi"><span>Produits</span><strong>12</strong></div>
+            </div>
+
+            <div class="preview-grid">
+              <div class="preview-card">
+                <h4>Revenus - 30 derniers jours</h4>
+                <div class="preview-chart"><canvas id="preview-chart"></canvas></div>
+              </div>
+              <div class="preview-card">
+                <h4>Commandes récentes</h4>
+                <div class="preview-order"><div><b>Aminata D.</b><small>Guide du marketing digital</small></div><span class="preview-pill">5 000</span></div>
+                <div class="preview-order"><div><b>Moussa F.</b><small>Template Notion</small></div><span class="preview-pill">3 500</span></div>
+                <div class="preview-order"><div><b>Fatou S.</b><small>Formation Canva</small></div><span class="preview-pill">12 000</span></div>
+                <div class="preview-order"><div><b>Ibrahima K.</b><small>Pack de 50 prompts</small></div><span class="preview-pill">2 500</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="preview-caption">Aperçu illustratif - les chiffres affichés sont des données d'exemple.</p>
+    </div>
+  </section>
+
+  <!-- ========= FONCTIONNALITÉS ========= -->
+
+  <section class="section section-alt" id="fonctionnalites">
+    <div class="public-container">
+      <div class="section-head" data-reveal-group>
+        <p class="section-eyebrow" data-reveal>Fonctionnalités</p>
+        <h2 data-reveal>Tout pour vendre, sans la complexité</h2>
+        <p data-reveal>Vous créez, YourID s'occupe de la boutique, de la livraison et du suivi.</p>
+      </div>
+      <div class="feature-grid-6" data-reveal-group>
+        <div class="feature-box landing-reveal" data-reveal>
+          <div class="feature-icon" data-icon="package"></div>
+          <h3>Votre boutique à vos couleurs</h3>
+          <p>Logo, bannière, couleur principale et un lien unique à partager sur Instagram, WhatsApp ou TikTok.</p>
+        </div>
+        <div class="feature-box landing-reveal" data-reveal>
+          <div class="feature-icon" data-icon="download"></div>
+          <h3>Fichier ou lien, au choix</h3>
+          <p>Hébergez vos PDF, EPUB, ZIP, MP3 ou MP4, ou liez vos contenus YouTube, Vimeo, Google Drive ou Dropbox.</p>
+        </div>
+        <div class="feature-box landing-reveal" data-reveal>
+          <div class="feature-icon" data-icon="shield"></div>
+          <h3>Contenu protégé</h3>
+          <p>Vos fichiers ne sont jamais accessibles par un lien public : le téléchargement n'est possible qu'après paiement confirmé.</p>
+        </div>
+        <div class="feature-box landing-reveal" data-reveal>
+          <div class="feature-icon" data-icon="wallet"></div>
+          <h3>Retraits sur mobile money</h3>
+          <p>Enregistrez vos comptes Orange Money, Wave, MTN ou bancaire, puis retirez votre solde quand vous voulez.</p>
+        </div>
+        <div class="feature-box landing-reveal" data-reveal>
+          <div class="feature-icon" data-icon="bot"></div>
+          <h3>Assistant IA intégré</h3>
+          <p>Générez des descriptions, titres et textes marketing accrocheurs pour vos produits en quelques secondes.</p>
+        </div>
+        <div class="feature-box landing-reveal" data-reveal>
+          <div class="feature-icon" data-icon="chart"></div>
+          <h3>Tableau de bord clair</h3>
+          <p>Suivez vos ventes, vos clients, vos avis et votre solde en temps réel, depuis un seul écran.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========= COMMENT ÇA MARCHE ========= -->
+  <section class="section" id="comment-ca-marche">
+    <div class="public-container">
+      <div class="section-head" data-reveal-group>
+        <p class="section-eyebrow" data-reveal>Comment ça marche</p>
+        <h2 data-reveal>Prêt à vendre en trois étapes</h2>
+      </div>
+      <div class="steps" data-reveal-group>
+        <div class="step landing-reveal" data-reveal>
+          <div class="step-number">1</div>
+          <h3>Créez votre boutique</h3>
+          <p>Inscrivez-vous, donnez un nom à votre boutique et personnalisez-la. Cela prend moins de deux minutes.</p>
+        </div>
+        <div class="step landing-reveal" data-reveal>
+          <div class="step-number">2</div>
+          <h3>Ajoutez vos produits</h3>
+          <p>Importez votre fichier ou collez un lien, fixez votre prix, rédigez (ou faites générer) la description, puis publiez.</p>
+        </div>
+        <div class="step landing-reveal" data-reveal>
+          <div class="step-number">3</div>
+          <h3>Partagez et encaissez</h3>
+          <p>Diffusez le lien de votre boutique. Chaque vente alimente votre solde, que vous retirez sur le compte de votre choix.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========= CATALOGUE EN DIRECT ========= -->
+  <section class="section section-alt" id="catalogue">
+    <div class="public-container">
+      <div class="section-head" data-reveal-group>
+        <p class="section-eyebrow" data-reveal>Catalogue</p>
+        <h2 data-reveal>Découvrez ce que vendent nos créateurs</h2>
+      </div>
+      <div class="product-grid landing-reveal" id="featured-grid" data-reveal="scale" style="padding-bottom:24px;">
+        <div class="skeleton" style="height:220px;"></div>
+        <div class="skeleton" style="height:220px;"></div>
+        <div class="skeleton" style="height:220px;"></div>
+        <div class="skeleton" style="height:220px;"></div>
+      </div>
+      <div style="text-align:center;">
+        <a href="/shop/marketplace.html" class="btn-secondary">Voir tout le catalogue</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========= MOYENS DE RETRAIT ========= -->
+  <section class="section">
+    <div class="public-container">
+      <div class="section-head" data-reveal-group>
+        <p class="section-eyebrow" data-reveal>Retraits</p>
+        <h2 data-reveal>Récupérez vos gains comme vous voulez</h2>
+        <p data-reveal>Choisissez le compte de destination au moment de chaque retrait. Les demandes sont examinées sous 1 à 3 jours ouvrés.</p>
+      </div>
+      <div class="pay-grid" data-reveal-group>
+        <div class="pay-card landing-reveal" data-reveal="scale"><div class="pay-mark" style="background:#FF6600;">OM</div><strong>Orange Money</strong></div>
+        <div class="pay-card landing-reveal" data-reveal="scale"><div class="pay-mark" style="background:#1DA1F2;">W</div><strong>Wave</strong></div>
+        <div class="pay-card landing-reveal" data-reveal="scale"><div class="pay-mark" style="background:#FFCC00; color:#111;">MTN</div><strong>MTN Mobile Money</strong></div>
+        <div class="pay-card landing-reveal" data-reveal="scale"><div class="pay-mark" style="background:#334155;">B</div><strong>Virement bancaire</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========= TARIF ========= -->
+  <section class="section section-alt" id="tarifs">
+    <div class="public-container">
+      <div class="section-head" data-reveal-group>
+        <p class="section-eyebrow" data-reveal>Tarif</p>
+        <h2 data-reveal>Choisissez votre commission</h2>
+        <p data-reveal>Vous ne payez que lorsque vous vendez. Plus votre volume grandit, plus votre commission baisse.</p>
+      </div>
+
+      <div class="pricing-grid landing-reveal" data-reveal="scale">
+        <div class="pricing-card pricing-card--alt">
+          <div class="pricing-badge">Plan starter</div>
+          <div class="pricing-price">15% <small>par vente</small></div>
+          <p class="pricing-sub">0 FCFA d'abonnement · aucun frais caché</p>
+          <div class="pricing-limit">
+            <span class="pricing-limit-label">Création de produits</span>
+            <strong>Jusqu'à 25 produits</strong>
+          </div>
+          <ul class="pricing-list">
+            <li>Boutique et produits illimités</li>
+            <li>Hébergement de fichiers jusqu'à 200 Mo</li>
+            <li>Tableau de bord et statistiques</li>
+            <li>Assistant IA pour vos descriptions</li>
+            <li>Retraits vers 4 moyens de paiement</li>
+          </ul>
+          <div><a href="auth/register.html" class="btn-secondary" style="width:100%;">Créer ma boutique</a></div>
+        </div>
+
+        <div class="pricing-card pricing-card--featured">
+          <div class="pricing-badge pricing-badge--featured">Plan croissance</div>
+          <div class="pricing-price">10% <small>par vente</small></div>
+          <p class="pricing-sub">Pour les créateurs qui vendent davantage</p>
+          <div class="pricing-limit pricing-limit--featured">
+            <span class="pricing-limit-label">Création de produits</span>
+            <strong>Jusqu'à 100 produits</strong>
+          </div>
+          <ul class="pricing-list">
+            <li>Tout ce qu'inclut le plan starter</li>
+            <li>Meilleure commission à volume</li>
+            <li>Priorité sur les demandes de retrait</li>
+            <li>Support plus rapide</li>
+            <li>Accès aux outils marketing avancés</li>
+          </ul>
+          <div><a href="auth/register.html" class="btn-primary" style="width:100%;">Choisir 10%</a></div>
+        </div>
+
+        <div class="pricing-card pricing-card--alt">
+          <div class="pricing-badge">Plan scale</div>
+          <div class="pricing-price">8% <small>par vente</small></div>
+          <p class="pricing-sub">Pour les boutiques à fort volume</p>
+          <div class="pricing-limit pricing-limit--unlimited">
+            <span class="pricing-limit-label">Création de produits</span>
+            <strong>Illimité</strong>
+          </div>
+          <ul class="pricing-list">
+            <li>Tout ce qu'inclut le plan starter</li>
+            <li>Commission réduite dès le premier achat</li>
+            <li>Accès aux dashboards avancés</li>
+            <li>Analyse de performance et croissance</li>
+            <li>Accompagnement dédié</li>
+          </ul>
+          <div><a href="auth/register.html" class="btn-secondary" style="width:100%;">Choisir 8%</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========= FAQ ========= -->
+  <section class="section" id="faq">
+    <div class="public-container">
+      <div class="section-head" data-reveal-group>
+        <p class="section-eyebrow" data-reveal>FAQ</p>
+        <h2 data-reveal>Vos questions fréquentes</h2>
+      </div>
+      <div class="faq">
+        <details class="faq-item landing-reveal" data-reveal>
+          <summary>Combien coûte YourID ?</summary>
+          <p>L'inscription et l'utilisation sont gratuites, sans abonnement. Une commission de 15% est prélevée sur chaque vente réalisée ; vous recevez le reste sur votre solde.</p>
+        </details>
+        <details class="faq-item landing-reveal" data-reveal>
+          <summary>Comment suis-je payé ?</summary>
+          <p>Chaque vente complétée crédite votre solde. Vous demandez ensuite un retrait vers l'un de vos comptes enregistrés (Orange Money, Wave, MTN ou virement). Chaque demande est examinée par notre équipe, généralement sous 1 à 3 jours ouvrés.</p>
+        </details>
+        <details class="faq-item landing-reveal" data-reveal>
+          <summary>Quels types de contenu puis-je vendre ?</summary>
+          <p>Ebooks, formations, audio, templates, logiciels, services et abonnements. Vous pouvez héberger des fichiers (PDF, EPUB, ZIP, DOCX, PPTX, MP3, MP4, images, jusqu'à 200 Mo) ou fournir un lien externe (YouTube, Vimeo, Google Drive, Dropbox, iCloud).</p>
+        </details>
+        <details class="faq-item landing-reveal" data-reveal>
+          <summary>Mes fichiers sont-ils protégés contre le partage ?</summary>
+          <p>Vos fichiers hébergés ne sont jamais exposés par un lien public. Ils ne peuvent être téléchargés qu'à partir d'une commande dont le paiement est confirmé, et uniquement pour le produit acheté.</p>
+        </details>
+        <details class="faq-item landing-reveal" data-reveal>
+          <summary>Mes clients ont-ils besoin d'un compte ?</summary>
+          <p>Non. Un acheteur passe commande avec son nom et son email, sans création de compte. Il accède ensuite à son contenu depuis la page de confirmation.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========= APPEL À L'ACTION FINAL ========= -->
+  <section style="padding-bottom:80px;">
+    <div class="cta-band landing-reveal" data-reveal>
+      <h2 class="landing-reveal" data-reveal>Prêt à lancer votre première vente ?</h2>
+      <p class="landing-reveal" data-reveal>Rejoignez les créateurs qui monétisent leur savoir avec YourID.</p>
+
+      <div class="commission-carousel landing-reveal" data-reveal aria-label="Tarifs de commission YourID" aria-live="polite">
+        <div class="commission-card is-active" aria-label="Commission Starter 15%">
+          <div class="commission-badge">Plan starter</div>
+          <div class="commission-price">15% <small>par vente</small></div>
+          <p>Pour démarrer sans frais et lancer votre boutique rapidement.</p>
+        </div>
+
+        <div class="commission-card" aria-label="Commission Croissance 10%">
+          <div class="commission-badge commission-badge--featured">Plan croissance</div>
+          <div class="commission-price">10% <small>par vente</small></div>
+          <p>Idéal quand votre audience et vos ventes prennent de l'ampleur.</p>
+        </div>
+
+        <div class="commission-card" aria-label="Commission Scale 8%">
+          <div class="commission-badge">Plan scale</div>
+          <div class="commission-price">8% <small>par vente</small></div>
+          <p>Pour les boutiques performantes et les volumes les plus élevés.</p>
+        </div>
+
+        <div class="commission-dots" aria-label="Choix de commission">
+          <button class="commission-dot is-active" type="button" aria-label="Afficher le plan starter" aria-pressed="true"></button>
+          <button class="commission-dot" type="button" aria-label="Afficher le plan croissance" aria-pressed="false"></button>
+          <button class="commission-dot" type="button" aria-label="Afficher le plan scale" aria-pressed="false"></button>
+        </div>
+      </div>
+
+      <a href="/auth/register.html" class="btn-primary landing-reveal">Créer ma boutique gratuitement</a>
+    </div>
+  </section>
+
+  <!-- ========= FOOTER ========= -->
+  <footer class="public-footer">
+    <div class="footer-grid">
+      <div class="footer-col footer-brand">
+        <div class="public-nav-logo"><div class="mark">YI</div> Your<span style="color:var(--brand)">ID</span></div>
+        <p>La plateforme pour vendre vos contenus numériques en Afrique.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Produit</h4>
+        <a href="/shop/marketplace.html">Catalogue</a>
+        <a href="/auth/register.html">Commencer à vendre</a>
+        <a href="/auth/login.html">Connexion</a>
+      </div>
+      <div class="footer-col">
+        <h4>En savoir plus</h4>
+        <a href="#fonctionnalites">Fonctionnalités</a>
+        <a href="#tarifs">Tarif</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="footer-col">
+        <h4>Légal</h4>
+        <a href="/legal/terms.html">Conditions d'utilisation</a>
+        <a href="/legal/privacy.html">Confidentialité</a>
+      </div>
+    </div>
+    <p>© 2026 YourID. Tous droits réservés.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="/assets/js/core/api.js"></script>
+  <script src="/assets/js/core/icons.js"></script>
+  <script src="/assets/js/core/landing-reveal.js"></script>
+  <script src="/assets/js/core/landing-animations.js"></script>
+  <script>
+    document.documentElement.classList.add('js');
+    setTimeout(function () {
+      if (!window.__landingAnim) document.documentElement.classList.remove('js');
+    }, 3000);
+  </script>
+  <script>
+    (async function loadCatalogue() {
+      const grid = document.getElementById('featured-grid');
+      try {
+        const { data } = await api.get('/marketplace/products?size=4', { skipAuth: true });
+        document.getElementById('stat-products').textContent = data.totalElements;
+
+        if (data.content.length === 0) {
+          grid.style.display = 'block';
+          grid.innerHTML = `<div class="empty-state">Les premiers produits arrivent bientôt.</div>`;
+          return;
+        }
+        grid.innerHTML = data.content.map((p) => `
+          <a class="product-card" href="/shop/product.html?slug=${encodeURIComponent(p.slug)}">
+            <div class="product-card-cover">${p.coverImage ? `<img src="${resolveAssetUrl(p.coverImage)}" alt="">` : '<i class="fa-solid fa-box-open" aria-hidden="true"></i>'}</div>
+            <div class="product-card-body">
+              <p class="product-card-title">${escapeHtml(p.title)}</p>
+              <p class="product-card-price">${formatPrice(p.price, p.currency)}</p>
+              <p class="product-card-meta">${escapeHtml(p.storeName)}</p>
+            </div>
+          </a>
+        `).join('');
+      } catch (e) {
+        document.getElementById('catalogue').style.display = 'none';
+        document.getElementById('stat-products').textContent = '-';
+      }
+    })();
+
+    (function renderPreviewChart() {
+      if (typeof Chart === 'undefined') return;
+      const sample = [42, 55, 38, 61, 70, 48, 52, 66, 80, 74, 58, 63, 90, 85, 72, 68, 95, 102, 88, 76, 110, 98, 105, 120, 115, 92, 108, 125, 118, 132];
+      const ctx = document.getElementById('preview-chart').getContext('2d');
+      Chart.defaults.font.family = "'Satoshi', 'Inter', system-ui, sans-serif";
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: sample.map((_, i) => `J${i + 1}`),
+          datasets: [{
+            data: sample,
+            borderColor: '#00A86B', borderWidth: 2.5, tension: 0.4, fill: true, pointRadius: 0, pointHoverRadius: 4,
+            backgroundColor: (c) => {
+              const { ctx: cx, chartArea } = c.chart;
+              if (!chartArea) return null;
+              const g = cx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+              g.addColorStop(0, 'rgba(0,168,107,0.25)');
+              g.addColorStop(1, 'rgba(0,168,107,0)');
+              return g;
+            },
+          }],
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => `${c.parsed.y} 000 FCFA` } } },
+          scales: { x: { display: false }, y: { display: false, beginAtZero: true } },
+        },
+      });
+    })();
+  </script>
+</body>
+</html>

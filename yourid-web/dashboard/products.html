@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produits - YourID</title>
+  <link rel="stylesheet" href="/assets/css/base/tokens.css">
+<link rel="stylesheet" href="/assets/css/base/components.css">
+<link rel="stylesheet" href="/assets/css/layouts/dashboard.css">
+</head>
+<body>
+  <div class="dash-shell">
+    <aside id="sidebar-root"></aside>
+    <div class="dash-main">
+      <header id="header-root"></header>
+      <main class="dash-content">
+
+        <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:16px; margin-bottom:20px;">
+          <div>
+            <h1 class="page-title">Catalogue Produits</h1>
+            <p style="color:var(--text-muted); margin-top:4px; font-size:14px;">Gérez vos contenus numériques et suivez leurs performances.</p>
+          </div>
+          <button id="open-create-btn" class="btn-primary" style="padding:10px 18px; font-size:13px;">
+            <span id="plus-icon-slot"></span> Ajouter un produit
+          </button>
+        </div>
+
+        <div class="products-kpi-row">
+          <div class="stat-card">
+            <span class="kpi-label">Total références</span>
+            <span class="kpi-value" id="kpi-count">-</span>
+          </div>
+          <div class="stat-card">
+            <span class="kpi-label">Chiffre d'affaires produits</span>
+            <span class="kpi-value" id="kpi-revenue">-</span>
+          </div>
+          <div class="stat-card">
+            <span class="kpi-label">Exemplaires vendus</span>
+            <span class="kpi-value" id="kpi-sales">-</span>
+          </div>
+        </div>
+
+        <div class="toolbar-card">
+          <div class="search-input-wrap">
+            <span style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#94A3B8; display:flex;" id="search-icon"></span>
+            <input class="input" type="text" id="search-input" placeholder="Rechercher par titre...">
+          </div>
+          <div class="pill-row" id="category-pills"></div>
+        </div>
+
+        <div class="card" style="padding:0; overflow:hidden;">
+          <div style="overflow-x:auto;">
+            <table class="dash-table" id="products-table">
+              <thead>
+                <tr>
+                  <th>Produit</th><th>Catégorie</th><th>Prix</th><th>Statut</th><th>Ventes</th><th>Revenus</th><th></th>
+                </tr>
+              </thead>
+              <tbody id="products-tbody">
+                <tr><td colspan="7"><div class="skeleton" style="height:40px;"></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Modale création / édition -->
+  <dialog id="product-dialog" class="product-dialog">
+    <form id="product-form">
+      <div class="pd-header">
+        <h3 class="section-title" style="font-size:17px;" id="pd-title">Nouveau produit</h3>
+        <button type="button" id="pd-close" style="border:none; background:none; font-size:20px; color:var(--text-muted);">&times;</button>
+      </div>
+
+      <div class="pd-body">
+        <input type="hidden" id="pd-id">
+
+        <div class="pd-cover-preview" id="pd-cover-preview">Aperçu couverture</div>
+        <div class="auth-field">
+          <label class="label">Image de couverture (optionnel)</label>
+          <input type="file" id="pd-cover-file" accept="image/jpeg,image/png,image/webp">
+        </div>
+
+        <!-- <i class="fa-solid fa-circle-check" aria-hidden="true"></i> Champs MANQUANTS ajoutés -->
+        <div class="auth-field">
+          <label class="label">Titre *</label>
+          <input class="input" id="pd-titlefield" required minlength="3" maxlength="200">
+        </div>
+        <div class="auth-field">
+          <label class="label">Type de produit *</label>
+          <select class="select-control" id="pd-type" required>
+            <option value="EBOOK">Ebook</option>
+            <option value="COURSE">Formation</option>
+            <option value="AUDIO">Audio</option>
+            <option value="TEMPLATE">Template</option>
+            <option value="SOFTWARE">Logiciel</option>
+            <option value="SERVICE">Service</option>
+            <option value="SUBSCRIPTION">Abonnement</option>
+            <option value="OTHER">Autre</option>
+          </select>
+        </div>
+
+        <div class="auth-field">
+          <label class="label">Contenu du produit</label>
+          <div class="pill-row" style="margin-bottom:10px;">
+            <button type="button" class="pill active" data-mode="url" id="mode-url-btn">Lien externe</button>
+            <button type="button" class="pill" data-mode="file" id="mode-file-btn">Fichier à héberger</button>
+          </div>
+
+          <div id="content-url-block">
+            <div class="pd-grid-2">
+              <div class="auth-field">
+                <label class="label">Type de lien</label>
+                <select class="select-control" id="pd-contenttype">
+                  <option value="YOUTUBE">YouTube</option>
+                  <option value="VIMEO">Vimeo</option>
+                  <option value="GDRIVE">Google Drive</option>
+                  <option value="DROPBOX">Dropbox</option>
+                  <option value="ICLOUD">iCloud</option>
+                  <option value="URL">Autre lien</option>
+                </select>
+              </div>
+              <div class="auth-field">
+                <label class="label">Lien d'accès</label>
+                <input class="input" type="url" id="pd-contenturl" placeholder="https://...">
+              </div>
+            </div>
+          </div>
+
+          <div id="content-file-block" style="display:none;">
+            <p style="font-size:12px; color:var(--text-muted); margin-bottom:8px;">
+              Formats acceptés : PDF, EPUB, ZIP, DOCX, PPTX, MP3, MP4, PNG, JPG — 200 Mo max.
+            </p>
+            <input type="file" id="pd-content-file" accept=".pdf,.epub,.zip,.docx,.pptx,.mp3,.mp4,.png,.jpg,.jpeg">
+            <p id="existing-content-file" style="font-size:12px; color:var(--text-muted); margin-top:8px; display:none;"></p>
+          </div>
+        </div>
+
+        <div class="auth-field">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <label class="label" style="margin-bottom:0;">Description *</label>
+            <button type="button" id="pd-ai-btn" class="pd-ai-btn"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> Générer avec l'IA</button>
+          </div>
+          <textarea class="input" id="pd-description" rows="4" required minlength="20" style="resize:vertical;"></textarea>
+        </div>
+
+        <div class="auth-field">
+          <label class="label">Résumé court (affiché dans les listes)</label>
+          <input class="input" id="pd-shortdesc" maxlength="500">
+        </div>
+
+        <div class="pd-grid-2">
+          <div class="auth-field">
+            <label class="label">Catégorie</label>
+            <select class="select-control" id="pd-category">
+              <option value="">Aucune</option>
+            </select>
+          </div>
+          <div class="auth-field">
+            <label class="label">Devise</label>
+            <select class="select-control" id="pd-currency">
+              <option value="XOF">XOF</option>
+              <option value="EUR">EUR</option>
+              <option value="USD">USD</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="pd-grid-2">
+          <div class="auth-field">
+            <label class="label">Prix *</label>
+            <input class="input" type="number" id="pd-price" min="0" step="1" required>
+          </div>
+          <div class="auth-field">
+            <label class="label">Prix barré (optionnel)</label>
+            <input class="input" type="number" id="pd-compareprice" min="0" step="1">
+          </div>
+        </div>
+
+        <div class="auth-field">
+          <label class="label">Note sur le contenu (visible par vous seul)</label>
+          <textarea class="input" id="pd-contentnote" rows="2" style="resize:vertical;"></textarea>
+        </div>
+
+        <label style="display:flex; align-items:center; gap:8px; font-size:13px; color:#374151;">
+          <input type="checkbox" id="pd-publish-now">
+          Publier immédiatement (sinon le produit reste en brouillon)
+        </label>
+      </div>
+
+      <div class="pd-footer">
+        <button type="button" id="pd-cancel" class="btn-secondary" style="padding:8px 18px; font-size:13px;">Annuler</button>
+        <button type="submit" id="pd-submit" class="btn-primary" style="padding:8px 18px; font-size:13px;">Créer le produit</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Modale détail (lecture) -->
+  <dialog id="detail-dialog" class="product-dialog" style="max-width:460px;">
+    <div class="pd-header">
+      <h3 class="section-title" style="font-size:17px;">Détail du produit</h3>
+      <button type="button" id="detail-close" style="border:none; background:none; font-size:20px; color:var(--text-muted);">&times;</button>
+    </div>
+    <div class="pd-body" id="detail-body"></div>
+    <div class="pd-footer">
+      <button type="button" id="detail-delete" class="btn-secondary" style="padding:8px 18px; font-size:13px; color:#DC2626; border-color:#FCA5A5;">Supprimer</button>
+      <button type="button" id="detail-edit" class="btn-primary" style="padding:8px 18px; font-size:13px;">Modifier</button>
+    </div>
+  </dialog>
+
+  <script src="/assets/js/core/api.js"></script>
+<script src="/assets/js/core/icons.js"></script>
+<script src="/assets/js/core/page-transition.js"></script>
+<script src="/assets/js/components/dashboard-shell.js"></script>
+<script src="/assets/js/pages/dashboard/products.js"></script>
+</body>
+</html>

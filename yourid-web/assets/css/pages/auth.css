@@ -1,0 +1,57 @@
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: #fff;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 920px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+@media (max-width: 767px) { .auth-card { grid-template-columns: 1fr; max-width: 420px; } }
+
+.auth-form-panel { padding: 40px; }
+.auth-visual-panel {
+  background: linear-gradient(160deg, var(--brand) 0%, var(--brand-dark) 100%);
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  color: #fff; padding: 40px; gap: 16px; text-align: center;
+}
+@media (max-width: 767px) { .auth-visual-panel { display: none; } }
+.auth-visual-mark { width: 64px; height: 64px; border-radius: 20px; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 22px; }
+
+.auth-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+.auth-header-mark { width: 40px; height: 40px; border-radius: 50%; background: var(--brand); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
+.auth-title { font-size: 22px; font-weight: 700; margin: 0; }
+.auth-subtitle { color: var(--text-muted); font-size: 14px; margin: 4px 0 0; }
+
+.auth-field { margin-bottom: 18px; }
+.auth-field-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.auth-link { font-size: 13px; font-weight: 600; color: var(--brand); }
+.auth-link:hover { text-decoration: underline; }
+
+.auth-error-box {
+  background: #FEF2F2; border: 1px solid #FECACA; color: #B91C1C;
+  border-radius: 12px; padding: 12px 14px; font-size: 13px; margin-bottom: 18px; display: none;
+}
+.auth-error-box.visible { display: block; }
+
+.auth-footer { text-align: center; font-size: 13px; color: var(--text-muted); margin-top: 20px; }
+
+.auth-legal { text-align: center; font-size: 12px; color: #9CA3AF; margin-top: 16px; line-height: 1.6; }
+
+.auth-back {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 600; color: var(--text-muted);
+  margin-bottom: 20px;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.auth-back:hover { color: var(--brand-dark); transform: translateX(-3px); }

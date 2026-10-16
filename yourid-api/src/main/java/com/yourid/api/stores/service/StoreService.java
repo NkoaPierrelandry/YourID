@@ -1,0 +1,155 @@
+package com.yourid.api.stores.service;
+
+import com.yourid.api.common.exception.ConflictException;
+import com.yourid.api.common.exception.ForbiddenActionException;
+import com.yourid.api.common.exception.ResourceNotFoundException;
+import com.yourid.api.common.util.SlugUtil;
+import com.yourid.api.stores.dto.CreateStoreRequest;
+import com.yourid.api.stores.dto.StoreResponse;
+import com.yourid.api.stores.dto.UpdateStoreRequest;
+import com.yourid.api.stores.entity.Store;
+import com.yourid.api.stores.enums.StorePlan;
+import com.yourid.api.stores.repository.StoreRepository;
+import com.yourid.api.users.entity.User;
+import com.yourid.api.users.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
+
+@Service
+@RequiredArgsConstructor
+public class StoreService {
+
+    private final StoreRepository storeRepository;
+    private final UserRepository userRepository;
+
+    // Un utilisateur ne peut avoir qu une seule boutique (relation 1-1 en base).
+    @Transactional
+    public StoreResponse create(UUID userId, CreateStoreRequest request) {
+        if (storeRepository.findByUserId(userId).isPresent()) {
+            throw new ConflictException("Vous avez deja une boutique.");
+        }
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Utilisateur introuvable."));
+
+        String slug = generateUniqueSlug(request.getName());
+
+        Store store = Store.builder()
+                .user(user)
+                .name(request.getName())
+                .slug(slug)
+                .description(request.getDescription())
+                .plan(StorePlan.STARTER)
+                .currency(request.getCurrency())
+                .country(request.getCountry())
+                .build();
+
+        return toResponse(storeRepository.save(store));
+    }
+
+    public StoreResponse getMine(UUID userId) {
+        return toResponse(findByUserId(userId));
+    }
+
+    public StoreResponse getById(UUID id) {
+        Store store = storeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Boutique introuvable : " + id));
+        return toResponse(store);
+    }
+
+    public StoreResponse getBySlug(String slug) {
+        Store store = storeRepository.findBySlug(slug)
+                .orElseThrow(() -> new ResourceNotFoundException("Boutique introuvable : " + slug));
+        return toResponse(store);
+    }
+
+    @Transactional
+    public StoreResponse update(UUID userId, UpdateStoreRequest request) {
+        Store store = findByUserId(userId);
+
+        if (request.getName() != null) store.setName(request.getName());
+        if (request.getDescription() != null) store.setDescription(request.getDescription());
+        if (request.getLogo() != null) store.setLogo(request.getLogo());
+        if (request.getBanner() != null) store.setBanner(request.getBanner());
+        if (request.getPrimaryColor() != null) store.setPrimaryColor(request.getPrimaryColor());
+        if (request.getWebsite() != null) store.setWebsite(request.getWebsite());
+        if (request.getTwitter() != null) store.setTwitter(request.getTwitter());
+        if (request.getInstagram() != null) store.setInstagram(request.getInstagram());
+        if (request.getYoutube() != null) store.setYoutube(request.getYoutube());
+        if (request.getTiktok() != null) store.setTiktok(request.getTiktok());
+        if (request.getFacebook() != null) store.setFacebook(request.getFacebook());
+        if (request.getTagline() != null) store.setTagline(request.getTagline());
+        if (request.getContactEmail() != null) store.setContactEmail(request.getContactEmail());
+        if (request.getContactPhone() != null) store.setContactPhone(request.getContactPhone());
+        if (request.getAnnouncement() != null) store.setAnnouncement(request.getAnnouncement());
+        if (request.getAnnouncementActive() != null) store.setAnnouncementActive(request.getAnnouncementActive());
+        if (request.getDefaultCurrency() != null) store.setDefaultCurrency(request.getDefaultCurrency());
+
+        return toResponse(storeRepository.save(store));
+    }
+
+    // Utilise par d autres modules (produits, commandes) pour verifier la propriete
+    // d une boutique avant d autoriser une action.
+    public Store findByUserId(UUID userId) {
+        return storeRepository.findByUserId(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Vous n avez pas encore de boutique."));
+    }
+
+    public Store findEntityById(UUID storeId) {
+        return storeRepository.findById(storeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Boutique introuvable."));
+    }
+
+    // Verifie que l utilisateur courant est bien le proprietaire de la boutique donnee,
+    // sinon leve une exception 403 -- utilise avant toute modification de produit/commande.
+    public void assertOwnership(Store store, UUID userId) {
+        if (!store.getUser().getId().equals(userId)) {
+            throw new ForbiddenActionException("Cette boutique ne vous appartient pas.");
+        }
+    }
+
+    private String generateUniqueSlug(String name) {
+        String base = SlugUtil.slugify(name);
+        String slug = base;
+        int suffix = 1;
+        while (storeRepository.existsBySlug(slug)) {
+            slug = base + "-" + suffix++;
+        }
+        return slug;
+    }
+
+    private StoreResponse toResponse(Store store) {
+        return StoreResponse.builder()
+                .id(store.getId())
+                .name(store.getName())
+                .slug(store.getSlug())
+                .description(store.getDescription())
+                .logo(store.getLogo())
+                .banner(store.getBanner())
+                .primaryColor(store.getPrimaryColor())
+                .plan(store.getPlan())
+                .currency(store.getCurrency())
+                .country(store.getCountry())
+                .website(store.getWebsite())
+                .tagline(store.getTagline())
+                .contactEmail(store.getContactEmail())
+                .contactPhone(store.getContactPhone())
+                .announcement(store.getAnnouncement())
+                .announcementActive(store.isAnnouncementActive())
+                .defaultCurrency(store.getDefaultCurrency())
+                .twitter(store.getTwitter())
+                .instagram(store.getInstagram())
+                .youtube(store.getYoutube())
+                .tiktok(store.getTiktok())
+                .facebook(store.getFacebook())
+                .isVerified(store.isVerified())
+                .totalRevenue(store.getTotalRevenue())
+                .totalSales(store.getTotalSales())
+                .balance(store.getBalance())
+                .createdAt(store.getCreatedAt())
+                .build();
+    }
+}
